@@ -1,0 +1,65 @@
+
+<html>
+  <head>
+    <meta http-equiv=Content-Type content="text/html; charset=utf-8"> 
+    <title>Technikalia</title>
+    <link href="../lm.css" rel="stylesheet" type="text/css">
+    <script language="javascript" type="text/javascript">
+      function emailCloak() {
+	if (document.getElementById) {
+	  var alltags = document.all? document.all :
+	    document.getElementsByTagName("*");
+	  for (i=0; i < alltags.length; i++) {
+	    if (alltags[i].className == "emailCloak") {
+	      var oldText = alltags[i].firstChild;
+	      var emailAddress = alltags[i].firstChild.nodeValue;
+	      var usr = emailAddress.substring(0, emailAddress.indexOf("("));
+	      var wb = emailAddress.substring(emailAddress.indexOf(")")+1,
+		  emailAddress.length);
+	      var newText = usr+"@"+wb;
+	      var a = document.createElement("a");
+	      a.href = "mailto:"+newText;
+	      var address = document.createTextNode(newText);
+	      a.appendChild(address);
+	      alltags[i].replaceChild(a,oldText);
+	    }
+	  }
+	}
+      }
+window.onload = emailCloak;
+</script>
+
+<script type="text/javascript">
+  function unhide(divID) {
+   var item = document.getElementById(divID);
+   if (item) {
+    item.className=(item.className=='hidden')?'abstract-body':'hidden';
+   }
+  }
+</script>
+
+<body>
+<div id="container">
+<div id="top">dr hab. Łukasz Machura</div>
+<div class="navid">
+            <div class="nav"><a href=".././index.html">Home</a></div>
+            <div class="nav"><a href="../cv/index.html">Cv</a></div>
+            <div class="nav"><a href="../publications/index.html">Publications</a></div>
+            <div class="nav"><a href="../student/index.html">Student</a></div>
+</div>
+<div id="main"><ul>
+<li><a
+href="http://swiety-python.blogspot.com/2013/01/vim-jako-python-ide.html">vim+python</a></li>
+<li><a
+href="https://robots.thoughtbot.com/vim-splits-move-faster-and-more-naturally">vim
+split</a></li>
+</ul>
+
+</div>
+</div>
+<div id="footer">
+&copy; 2014, <a href="mailto:lukasz.machura@us.edu.pl">Łukasz Machura</a>,  
+Department of Theoretical Physics, Institute of Physics,
+University of Silesia,
+ul. Uniwersytecka 4, 40-007 Katowice
+</div></body></html>

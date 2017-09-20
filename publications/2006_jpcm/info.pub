@@ -1,0 +1,7 @@
+title::Addendum and Erratum: Optimal strategy for controlling transport in inertial Brownian motion
+author::L. Machura, M. Kostur, F. Marchesoni, P. Talkner, P. Hänggi and J. Luczka
+abstract::The expression for the effective diffusion of an inertial, periodically driven Brownian particle in an asymmetric, periodic potential is compared with the step number diffusion which is extracted from the corresponding coarse grained hopping process specifying the number of covered spatial periods within each temporal period. The two expressions are typically different and involve the correlations between the number of hops.
+ref::J. Phys.: Condens. Matter 18, 4111-4112 (2006)
+arxiv::cond-mat/0505248
+pdf::cm6_16_C01.pdf
+source::jpcm_erratum.zip

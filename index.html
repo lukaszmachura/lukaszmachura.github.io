@@ -1,1 +1,91 @@
-Hello World!
+
+<html>
+  <head>
+    <meta http-equiv=Content-Type content="text/html; charset=utf-8"> 
+    <title>LM's home page</title>
+    <link href="lm.css" rel="stylesheet" type="text/css">
+    <script language="javascript" type="text/javascript">
+      function emailCloak() {
+	if (document.getElementById) {
+	  var alltags = document.all? document.all :
+	    document.getElementsByTagName("*");
+	  for (i=0; i < alltags.length; i++) {
+	    if (alltags[i].className == "emailCloak") {
+	      var oldText = alltags[i].firstChild;
+	      var emailAddress = alltags[i].firstChild.nodeValue;
+	      var usr = emailAddress.substring(0, emailAddress.indexOf("("));
+	      var wb = emailAddress.substring(emailAddress.indexOf(")")+1,
+		  emailAddress.length);
+	      var newText = usr+"@"+wb;
+	      var a = document.createElement("a");
+	      a.href = "mailto:"+newText;
+	      var address = document.createTextNode(newText);
+	      a.appendChild(address);
+	      alltags[i].replaceChild(a,oldText);
+	    }
+	  }
+	}
+      }
+window.onload = emailCloak;
+</script>
+
+<script type="text/javascript">
+  function unhide(divID) {
+   var item = document.getElementById(divID);
+   if (item) {
+    item.className=(item.className=='hidden')?'abstract-body':'hidden';
+   }
+  }
+</script>
+
+<body>
+<div id="container">
+<div id="top">dr hab. Łukasz Machura</div>
+<div class="navid">
+            <div class="here">Home</div>
+            <div class="nav"><a href="cv/index.html">Cv</a></div>
+            <div class="nav"><a href="publications/index.html">Publications</a></div>
+            <div class="nav"><a href="student/index.html">Student</a></div>
+</div>
+<div id="main"><div style="height: 400px;">
+<div style="float:left; width: 33%;">
+<ul class="home">
+<li><a href="http://www.us.edu.pl">University of Silesia</a></li>
+<li><a href="http://fizyka.us.edu.pl">Institute of Physics</a></li>
+<li><a href="http://fizyka.us.edu.pl/zmkf/start.html">Divison of Computational
+Physics and Electronics</a><br>
+ul. Uniwersytecka 4<br>
+40 - 007 Katowice, Poland<br>
+office: +48 32 359-21-07<br>
+fax +48 32 258-36-53<br>
+room: 528</li>
+<li><a href="http://www.smcebi.us.edu.pl/">Silesian Center for Education and 
+Interdisciplinary Research</a><br>
+ul. 75 Pułku Piechoty 1A<br>
+41-500 Chorzów<br>
+office: (032) 349 7605<br>
+room: E/1/11</li>
+<h2>Contact</h2>
+<span class="emailCloak">lukasz.machura(małpa)smcebi.edu.pl</span></li>
+</ul>
+</div>
+<div style="float:left; text-align: center; vertical-align: middle; width:33%;">
+<p style="visibility: hidden;">a</a>
+<!--div id='badgeCont292143' class=reasercherid><script src='http://labs.researcherid.com/mashlets?el=badgeCont292143&mashlet=badge&showTitle=false&className=a&rid=A-1408-2009'></script></div-->
+</div>
+<div style="float:left; text-align: center; vertical-align: middle; width:33%;">
+<p style="padding-top: 30px;"><img src="images/lm.jpg"></p>
+<div style="padding-top:20px;" id=badgeCont292143><script src='http://labs.researcherid.com/mashlets?el=badgeCont292143&mashlet=badge&showTitle=false&className=a&rid=A-1408-2009'></script></div>
+</div>
+</div>
+<p class="distinguished"><a href="http://www.epj.org/distinguished-epj-referees">
+<img src="images/epjb2014.png"></a></p>
+
+</div>
+</div>
+<div id="footer">
+&copy; 2014, <a href="mailto:lukasz.machura@us.edu.pl">Łukasz Machura</a>,  
+Department of Theoretical Physics, Institute of Physics,
+University of Silesia,
+ul. Uniwersytecka 4, 40-007 Katowice
+</div></body></html>

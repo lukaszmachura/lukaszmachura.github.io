@@ -1,0 +1,7 @@
+title::Anomalous transport in biased ac-driven Josephson junctions: Negative conductances
+author::M. Kostur, L. Machura, P. Talkner, P. Hänggi, and J. Łuczka
+abstract::We investigate classical anomalous electrical transport in a driven, resistively, and capacitively shunted Josephson junction device. Intriguing transport phenomena are identified in chaotic regimes when the junction is subjected to both a time-periodic (ac) and a constant biasing (dc) current. The dependence of the voltage across the junction on the dc exhibits a rich diversity of anomalous transport characteristics. In particular, depending on the chosen parameter regime, we can identify the so termed absolute negative conductance around zero dc bias, the occurrence of negative differential conductance, and, after crossing a zero conductance, the emergence of a negative nonlinear conductance in the nonequilibrium response regime remote from zero dc bias.
+ref::Phys. Rev. B 77, 104509 (2008) 
+arxiv::0712.0893
+pdf::PhysRevB_77_104509.pdf
+source::2008_prb.zip

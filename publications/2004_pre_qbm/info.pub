@@ -1,0 +1,7 @@
+title::Consistent Description Of Quantum Brownian Motors Operating At Strong Friction
+author::L. Machura, M. Kostur, P. Hänggi, P. Talkner and J. Luczka
+abstract::A quantum Smoluchowski equation is put forward that consistently describes thermal quantum states. In particular, it notably does not induce a violation of the second law of thermodynamics. This so modified kinetic equation is applied to study analytically directed quantum transport at strong friction in arbitrarily shaped ratchet potentials that are driven by nonthermal two-state noise. Depending on the mutual interplay of quantum tunneling and quantum reflection these quantum corrections can induce both, a sizable enhancement or a suppression of transport. Moreover, the threshold for current reversals becomes markedly shifted due to such quantum fluctuations.
+ref::Phys. Rev. E 70, 031107 (2004)
+arxiv::cond-mat/0402116
+pdf::PhysRevE_70_31107.pdf
+source::2004_pre_qbm.zip

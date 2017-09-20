@@ -1,0 +1,140 @@
+
+<html>
+  <head>
+    <meta http-equiv=Content-Type content="text/html; charset=utf-8"> 
+    <title>LM's CV</title>
+    <link href="../lm.css" rel="stylesheet" type="text/css">
+    <script language="javascript" type="text/javascript">
+      function emailCloak() {
+	if (document.getElementById) {
+	  var alltags = document.all? document.all :
+	    document.getElementsByTagName("*");
+	  for (i=0; i < alltags.length; i++) {
+	    if (alltags[i].className == "emailCloak") {
+	      var oldText = alltags[i].firstChild;
+	      var emailAddress = alltags[i].firstChild.nodeValue;
+	      var usr = emailAddress.substring(0, emailAddress.indexOf("("));
+	      var wb = emailAddress.substring(emailAddress.indexOf(")")+1,
+		  emailAddress.length);
+	      var newText = usr+"@"+wb;
+	      var a = document.createElement("a");
+	      a.href = "mailto:"+newText;
+	      var address = document.createTextNode(newText);
+	      a.appendChild(address);
+	      alltags[i].replaceChild(a,oldText);
+	    }
+	  }
+	}
+      }
+window.onload = emailCloak;
+</script>
+
+<script type="text/javascript">
+  function unhide(divID) {
+   var item = document.getElementById(divID);
+   if (item) {
+    item.className=(item.className=='hidden')?'abstract-body':'hidden';
+   }
+  }
+</script>
+
+<body>
+<div id="container">
+<div id="top">dr hab. Łukasz Machura</div>
+<div class="navid">
+            <div class="nav"><a href=".././index.html">Home</a></div>
+            <div class="here">Cv</div>
+            <div class="nav"><a href="../publications/index.html">Publications</a></div>
+            <div class="nav"><a href="../student/index.html">Student</a></div>
+</div>
+<div id="main">	  <h2>Curriculum Vitae</h2>
+	  <hr>
+	  <p class="section">Łukasz Machura</p>
+	  <ul class=cv>
+	    <li>Date of Birth: 1 December 1977</li>
+	    <li>Place of Birth: Zawiercie, Poland</li>
+	    <li>Status: Married, two daughters</li>
+	    </ul>
+	      <p class="section">Education</p>
+	    <ul class=cv>
+	      <li>1996-1999 general physics study, University of Silesia, Katowice,
+	      Poland.</li>
+	      <li> 1999-2001 theoretical physics study, The Department of Theoretical 
+	      Physics, University of Silesia, Katowice, Poland.</li>
+	      <li>2001 MSc in theoretical physics (stochastic processes), thesis: 
+	      "Inertial Effects In Dichotomic Ratchets", advisor: Prof. Dr. Jerzy Luczka.
+	       </li>
+	       <li> 2001-2002 Ph.D. study, Department of Theoretical Physics, 
+	       University of Silesia, Katowice, Poland.
+		</li>
+		<li> 2002-2003 research in the group of Prof. Dr. Peter Hänggi, 
+		Augsburg University, Germany ­ a year DAAD grant. </li>
+		<li> 2003-2006 Ph.D. study, Theoretical Physics I, Augsburg 
+		University, Germany ­ a three year Graduiertenkolleg 283 scholarship.
+		 </li>
+		 <li>15.03.2006 Ph.D. in theoretical physics, thesis: "Performace of
+		 Brownian Motors", Augsburg University, Germany.
+		 </li>
+	         <li>20.12.2016 habilitation, theoretical physics, University
+		 of Silesia</li>
+	    </ul>
+	      <p class="section">Employment</p>
+	    <ul class="cv">
+	      <li>2006-2007 Instructor (asystent), Institute of Physics, University of 
+	      Silesia, Katowice, Poland.
+	      </li>
+	      <li>2007-present Assistant Professor (adiunkt), Institute of Physics, 
+	      University of Silesia, Katowice, Poland.
+	      </li>
+	    </ul>
+	      <p class="section">Scholarschips and Grants</p>
+	    <ul class=cv>
+	      <li>2002 -­ 2003 a year German Academic Exchange Service (DAAD)
+	      grant: research in the group of Prof. Dr. Peter Hänggi, Augsburg,
+	      Germany. 
+	      </li>
+	      <li> 2003 -­ 2006 a three year Graduiertenkolleg 283 scholarship: PhD
+	      tudy at the Augsburg University, Germany in the group of Prof.
+	      Dr. Peter Hänggi. 
+	      </li>
+	      <li>2008 a year Foundation for Polish Science (FNP)
+	      scholarship (START programme).
+	      </li>
+	      <li>2009 a year Foundation for Polish Science (FNP)
+	      scholarship (START programme extension).
+	      </li>	      
+	    </ul>
+	      <p class="section">Experience</p>
+	    <ul class=cv>
+	    <li>2014 Distinguished EPJ Referee</li>
+	    <li>Member of 2015 UPoN International Scientific Committee</li>
+	    </ul>
+	      <p class="section">Membership</p>
+	    <ul class=cv>
+	      <li>Polish Physical Society</li>
+	    </ul>
+	      <p class="section">Invited Talks</p>
+	    <ul class=cv>
+	      <li>"Methods of physics for the financial markets",<br>Finansomania
+	      2015, Poznan University of Economics</li>
+	      <li>"Transport control in nonlinear systems",<br>2012, Department of
+	      Condensed Matter Physics, Faculty of
+	      Mathematics and Physics, Charles University in Prague, Czech
+	      Republic</li>
+	      <li>"Transport control in nonlinear dynamical systems",<br>2011 
+	      Institute of Physics, Jagiellonian University, Krakow</li>
+	      <li>"Anomalous transport in periodic systems",<br> <a
+		href="http://th-www.if.uj.edu.pl/zfs/smoluchowski/index.html">
+		20th Marian Smoluchowski Symposium on Statistical Physics: 
+		Fundamentals and Applications, 22-27.09.2007, Zakopane, Poland</a></li>
+	    </ul>
+
+
+</div>
+</div>
+<div id="footer">
+&copy; 2014, <a href="mailto:lukasz.machura@us.edu.pl">Łukasz Machura</a>,  
+Department of Theoretical Physics, Institute of Physics,
+University of Silesia,
+ul. Uniwersytecka 4, 40-007 Katowice
+</div></body></html>

@@ -1,0 +1,7 @@
+title::Optimal strategy for controlling transport in inertial Brownian motion
+author::L. Machura, M. Kostur, F. Marchesoni, P. Talkner, P. Hänggi and J. Luczka
+abstract::In order to optimize the directed motion of an inertial Brownian motor, we identify the operating conditions that both maximize the motor current and minimize its dispersion. Extensive numerical simulation of an inertial rocked ratchet displays that two quantifiers, namely the energetic efficiency and the Péclet number (or equivalently the Fano factor), suffice to determine the regimes of optimal transport. The effective diffusion of this rocked inertial Brownian motor can be expressed as a generalized fluctuation theorem of the Green–Kubo type.
+ref::J. Phys.: Condens. Matter 17, S3741-S3752 (2005)
+arxiv::cond-mat/0505248
+pdf::cm5_47_007.pdf
+source::2005_jpcm.zip

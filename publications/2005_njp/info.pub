@@ -1,0 +1,7 @@
+title::Statistics of transition times, phase diffusion and synchronization in periodically driven bistable systems
+author::Peter Talkner, Lukasz Machura, Michael Schindler, Peter Hänggi and Jerzy Luczka
+abstract::The statistics of transitions between the metastable states of a periodically driven bistable Brownian oscillator are investigated on the basis of a two-state description by means of a master equation with time-dependent rates. The theoretical results are compared with extensive numerical simulations of the Langevin equation for a sinusoidal driving force. Very good agreement is achieved both for the counting statistics of the number of transitions per period and the residence time distribution of the process in either state. The counting statistics corroborate in a consistent way the interpretation of stochastic resonance as a synchronization phenomenon for a properly defined generalized Rice phase.
+ref::New J. Phys. 7, 14 (2005)
+arxiv::physics/0409065
+pdf::njp5_1_014.pdf
+source::2005_njp.zip

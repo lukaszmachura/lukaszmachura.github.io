@@ -1,0 +1,7 @@
+title::GPU accelerated Monte Carlo simulation of Brownian motors dynamics with CUDA
+author::J. Spiechowicz, M. Kostur and L. Machura
+abstract::This work presents an updated and extended guide on methods of a proper acceleration of the Monte Carlo integration of stochastic differential equations with the commonly available NVIDIA Graphics Processing Units using the CUDA programming environment. We outline the general aspects of the scientific computing on graphics cards and demonstrate them with two models of a well known phenomenon of the noise induced transport of Brownian motors in periodic structures. As a source of fluctuations in the considered systems we selected the three most commonly occurring noises: the Gaussian white noise, the white Poissonian noise and the dichotomous process also known as a random telegraph signal. The detailed discussion on various aspects of the applied numerical schemes is also presented. The measured speedup can be of the astonishing order of about 3000 when compared to a typical CPU. This number significantly expands the range of problems solvable by use of stochastic simulations, allowing even an interactive research in some cases.
+ref::Comput. Phys. Commun. 191, 140 (2015)
+arxiv::1409.4923
+pdf::2015_cpc.pdf
+source::2015_CPC.zip

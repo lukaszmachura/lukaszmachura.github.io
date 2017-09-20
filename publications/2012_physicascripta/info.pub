@@ -1,0 +1,7 @@
+title::Directed transport in coupled noisy Josephson junctions controlled via ac signals
+author::L. Machura, J. Spiechowicz and J. Luczka
+abstract::The transport properties of two coupled Josephson junctions driven by ac currents and thermal fluctuations are studied with the purpose of determining dc voltage characteristics. It is a physical realization of the directed transport induced by a non-biased zero averaged external signal. The ac current either (A) is applied to only one junction as a biharmonic current or (B) is split into two simple harmonic components and separately applied to the respective junctions. We identify the regimes where junctions can operate with the same as well as opposite signs of voltages. A general observation is that in the same parameter regime, scenario (B) is more efficient in the sense that the induced dc voltages take greater values.
+ref::Phys. Scr. 151, 014021 (2012) 
+arxiv::1203.6236
+pdf::2012_phys_scri.pdf
+source::2012_phys_scri.zip

@@ -1,0 +1,7 @@
+title::Quantum diffusion in biased washboard potentials: strong friction limit
+author::L. Machura, M. Kostur, P. Talkner, J. Luczka and P. Hänggi
+abstract::Diffusive transport properties of a quantum Brownian particle moving in a tilted spatially periodic potential and strongly interacting with a thermostat are explored. Apart from the average stationary velocity, we foremost investigate the diffusive behavior by evaluating the effective diffusion coefficient together with the corresponding Peclet number. Corrections due to quantum effects, such as quantum tunneling and quantum fluctuations, are shown to substantially enhance the effectiveness of diffusive transport if only the thermostat temperature resides within an appropriate interval of intermediate values.
+ref::Phys. Rev. E 73, 031105 (2006)
+arxiv::cond-mat/0511597
+pdf::PhysRevE_73_031105.pdf
+source::2006_pre.zip

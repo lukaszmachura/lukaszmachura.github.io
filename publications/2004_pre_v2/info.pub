@@ -1,0 +1,7 @@
+title::Brownian motors: current fluctuations and rectification effciency
+author::L. Machura, M. Kostur, P. Talkner, J. Luczka, F. Marchesoni and P. Hänggi
+abstract::With this work, we investigate an often neglected aspect of Brownian motor transport, namely, the role of fluctuations of the noise-induced current and its consequences for the efficiency of rectifying noise. In doing so, we consider a Brownian inertial motor that is driven by an unbiased monochromatic, time-periodic force and thermal noise. Typically, we find that the asymptotic, time-, and noise-averaged transport velocities are small, possessing rather broad velocity fluctuations. This implies a corresponding poor performance for the rectification power. However, for tailored profiles of the ratchet potential and appropriate drive parameters, we can identify a drastic enhancement of the rectification efficiency. This regime is marked by persistent, unidirectional motion of the Brownian motor with few back-turns only. The corresponding asymmetric velocity distribution is then rather narrow, with a support that predominantly favors only one sign for the velocity.
+ref::Phys. Rev. E 70, 061105 (2004)
+arxiv::cond-mat/0409314
+pdf::PhysRevE_70_061105.pdf
+source::2004_pre_v2.zip

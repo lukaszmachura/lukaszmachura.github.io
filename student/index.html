@@ -1,0 +1,124 @@
+
+<html>
+  <head>
+    <meta http-equiv=Content-Type content="text/html; charset=utf-8"> 
+    <title>Informacje dla studenta</title>
+    <link href="../lm.css" rel="stylesheet" type="text/css">
+    <script language="javascript" type="text/javascript">
+      function emailCloak() {
+	if (document.getElementById) {
+	  var alltags = document.all? document.all :
+	    document.getElementsByTagName("*");
+	  for (i=0; i < alltags.length; i++) {
+	    if (alltags[i].className == "emailCloak") {
+	      var oldText = alltags[i].firstChild;
+	      var emailAddress = alltags[i].firstChild.nodeValue;
+	      var usr = emailAddress.substring(0, emailAddress.indexOf("("));
+	      var wb = emailAddress.substring(emailAddress.indexOf(")")+1,
+		  emailAddress.length);
+	      var newText = usr+"@"+wb;
+	      var a = document.createElement("a");
+	      a.href = "mailto:"+newText;
+	      var address = document.createTextNode(newText);
+	      a.appendChild(address);
+	      alltags[i].replaceChild(a,oldText);
+	    }
+	  }
+	}
+      }
+window.onload = emailCloak;
+</script>
+
+<script type="text/javascript">
+  function unhide(divID) {
+   var item = document.getElementById(divID);
+   if (item) {
+    item.className=(item.className=='hidden')?'abstract-body':'hidden';
+   }
+  }
+</script>
+
+<body>
+<div id="container">
+<div id="top">dr hab. Łukasz Machura</div>
+<div class="navid">
+            <div class="nav"><a href=".././index.html">Home</a></div>
+            <div class="nav"><a href="../cv/index.html">Cv</a></div>
+            <div class="nav"><a href="../publications/index.html">Publications</a></div>
+            <div class="here">Student</div>
+</div>
+<div id="main"><p class="section">Obecne prace magisterskie</p>
+<ul class="cv">
+</ul>
+<p class="section">Obecne prace inzynierskie/licencjackie</p>
+<ul class="cv">
+<!--li>Bernadeta Jurkowska, Ekonofizyka 2016</li-->
+</ul>
+<p class="section">Byłe prace magisterskie</p>
+<ul class="cv">
+<li>Michał Pilch, "Użyteczność multifraktalnej analizy fluktuacji zdetrendowanych w ocenie ryzyka funduszy inwestycyjnych.", Ekonofizyka 2016
+<br><a href="prace_dyplomowe/2016_Pilch/03-MGR-277208-2016.pdf">praca
+dyplomowa (PDF, 2.7 MB)</a></li>
+<li>Hanna Kozielska, "Analiza rynku paliw w Polsce
+z wykorzystaniem metody MF-DFA", Ekonofizyka 2016
+<br><a href="prace_dyplomowe/2016_Kozielska/03-MGR-258202-2016.pdf">praca
+dyplomowa (PDF, 2.8 MB)</a></li>
+<li>Paweł Lewandowski, "Ocena ryzyka upadłości spółek na podstawie własności multifraktalnych notowań akcji z użyciem metody maszyn wektorów nośnych - budowa modelu, zastosowanie w handlu algorytmicznym.", Ekonofizyka 2015
+<br />
+<a
+href="prace_dyplomowe/2015_Lewandowski/03-MGR-298807-2015.pdf">praca
+dyplomowa (PDF, 2.2 MB)</a></li>
+<li>Oskar Tendelski, "Analiza korelacji oraz fluktuacji wybranych instrumentów finansowych w obrębie polskich spółek przemysłów górniczego i energetycznego", Ekonofizyka 2015</li>
+<li>Paulina Trybek, "Analiza sygnału pEMG mięśni kończyny górnej w trakcie wykonywania złożonych czynności motorycznych", Fizyka Medyczna, 2013 </li>
+</ul>
+<p class="section">Byłe prace inżynierskie/licencjackie</p>
+<ul class="cv">
+<li>Diana Riabushkina, Ekonofizyka 2016
+<br />
+<a
+href="prace_dyplomowe/2016_Riabushkina/03-LIC-298679-2016.pdf">praca
+dyplomowa (PDF, 1.3 MB)</a></li>
+</li>
+<li>Robert Kwapich, "Analiza zachowań ratowników medycznych metodą MOCAP", Fizyka Medyczna 2015
+<br />
+<a
+href="prace_dyplomowe/2015_Kwapich/03-INZ-276941-2015.pdf">praca
+dyplomowa (PDF, 12 MB)</a>
+</li>
+<li>Michał Botor, "Numeryczne wyznaczanie wykładników i wymiaru Lapunowa deterministycznych układów dynamicznych", Fizyka Techniczna, 2015,
+<br />
+<a
+href="prace_dyplomowe/2015_Botor/2015_BotorMichal_NumWyzWyklLyapunowa.pdf">praca
+dyplomowa (PDF, 1.5 MB)</a>, 
+<a href="prace_dyplomowe/2015_Botor/LyapunovSpectrum.rar">numeryka (rar, 9.3
+MB)</a>
+</li>
+<li>Mikołaj Janik, "Wymiar fraktalny a ryzyko instrumentów finansowych. Porównanie metod DMA oraz DFA.", Ekonofizyka, 2014</li>
+<li>Magdalena Łuczka, "Korelacje sygnałów powierzchniowego EMG w czasie wykonywania skomplikowanych czynności motorycznych", Fizyka Medyczna, 2014</li>
+<li>Jakub Spiechowicz, "Dynamika złącza Josephsona napędzanego szumem Poissona", Fizyka, 2012</li>
+<li>Paulina Trybek, "Analiza, z użyciem wybranych narzędzi statystycznych zmiennych opisujących wyniki badań, 
+wykonanych podczas oceny diagnostycznej zwieracza zewnętrznego odbytu.", Fizyka Medyczna, 2011,
+<br /><a href="prace_dyplomowe/2013_Trybek/Trybek_ZeszytyAJD_2013.pdf">P. Trybek, M. Nowakowski, Ł. Machura, 
+Prace Naukowe Akademii im. Jana Długosza w Częstochowie, FIZYKA VIII (2013)</a>
+</li>
+</ul>
+
+<p class="section">Projekty studentów</p>
+<ul class="cv">
+<li><a href="nobel">Nobel</a></li>
+</ul>
+
+<p class="section">Technikalia</p>
+<ul class="cv">
+<li><a href="../tech">tech</a></li>
+<li><a href="is14">is14</a></li>
+</ul>
+
+</div>
+</div>
+<div id="footer">
+&copy; 2014, <a href="mailto:lukasz.machura@us.edu.pl">Łukasz Machura</a>,  
+Department of Theoretical Physics, Institute of Physics,
+University of Silesia,
+ul. Uniwersytecka 4, 40-007 Katowice
+</div></body></html>

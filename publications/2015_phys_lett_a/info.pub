@@ -1,0 +1,7 @@
+title::Persistent currents in metallic rings containing a quantum dot
+author::L. Machura and J. Luczka
+abstract::Currents in a metallic ring with a quantum dot  are studied in the framework of a Langevin equation for a magnetic flux passing through the ring.  Two scenarios are considered: one in which thermal fluctuations of the dissipative part of the current are modelled by classical Johnson-Nyquist noise  and one in which quantum character of thermal fluctuations is taken into account in  terms of  a quantum Smoluchowski equation. The impact of the amplitude and phase of the transmission coefficient of the electron through a quantum dot on  current characteristics is analyzed. In  tailored parameter regimes, both scenarios can exhibit the transition from para-- to diamagnetic response of the ring current versus external magnetic flux.
+ref::Phys. Lett. A 379, 1654 (2015)
+arxiv::1504.01930
+pdf::physleta2015.pdf
+source::2015qdot.zip

@@ -1,0 +1,7 @@
+title::Control of transport characteristics in two coupled Josephson junctions
+author::J. Spiechowicz, L. Machura, M. Kostur and J. Łuczka
+abstract::We report on a theoretical study of transport properties of two coupled  Josephson junctions and compare two scenarios for controlling the current-voltage characteristics when the system is driven by an external biased DC current and unbiased AC current consisting of one harmonic. In the first scenario, only one junction is subjected to both DC and AC currents. In the second scenario the signal is split -- one junction is subjected to the DC current while the other is subjected to the AC current. We study DC voltages across both junctions and find diversity of anomalous transport regimes for the first and second driving scenarios.
+ref::Acta Phys. Polon. B 43, 1203 (2012) 
+arxiv::1110.5287
+pdf::2012_appb.pdf
+source::2012_appb.zip

@@ -1,0 +1,7 @@
+title::Two coupled Josephson junctions: dc voltage controlled by biharmonic current
+author::L. Machura, J. Spiechowicz, M. Kostur and J. Łuczka
+abstract::We study transport properties of two Josephson junctions coupled by an external shunt resistance. One of the junction (say, the first) is driven by an unbiased ac current consisting of two harmonics.  The  device  can rectify the ac current    yielding a dc voltage across the first junction. For some values of coupling   strength, controlled by an external shunt resistance, a dc voltage across   the second junction can be generated.  By variation of system parameters like the  relative phase or frequency of two harmonics, one can conveniently manipulate both voltages with high efficiency, e.g., changing the dc voltages across the first and second junctions from  positive to negative values and vice versa.
+ref::J. Phys. Condens. Matter 24, 085702 (2012)
+arxiv::1110.5287
+pdf::2012_jpcm.pdf
+source::2012_jpcm.tar.gz
