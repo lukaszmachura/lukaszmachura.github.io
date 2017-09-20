@@ -1,0 +1,12 @@
+ARMA
+====
+
+Analizując dane pochodzące z szeroko pojętych źródeł rynków finansowych dość często korzysta się z Modeli
+Autoregresyjnych ze Średnią Kroczącą. Angielska nazwa takich modeli to Autoregresive Moving Average Models 
+i stąd nazwa ARMA. Zwykle procedura polega na pewnej analizie posiadanych danych i dopasowaniu
+do nich parametrów takiego modelu. Takim zagadnieniem zajmuje się `Analiza Szeregów Czasowych
+<http://el.us.edu.pl/ekonofizyka/index.php/Analiza_Szeregów_Czasowych>`_. Szeregów dostarcza "samo życie",
+czyli np: giełda. Jako, że ten kurs ma na celu modelowanie rynków, czyli ma *generować* takie szeregi,
+pobawimy się teraz w symulowanie rynku.
+
+Model ARMA to nic innego jak układ równań różnicowych ze stałymi współczynnikami. 

@@ -1,0 +1,172 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Stochastyczne równania różniczkowe &mdash; Komputerowe modelowanie zjawisk rynkowych 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/translations.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Komputerowe modelowanie zjawisk rynkowych 0.1 documentation" href="../../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="Indeks ogólny"
+             accesskey="I">indeks</a></li>
+        <li><a href="../../../index.html">KMZR</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../../index.html">Spis treści</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Stochastyczne równania różniczkowe</a><ul>
+<li><a class="reference internal" href="#schemat-eulera-maruyamy">Schemat Eulera-Maruyamy</a></li>
+<li><a class="reference internal" href="#schemat-millsteina">Schemat Millsteina</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>Ta strona</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../../_sources/sections/tmp/sections/04_sde.txt"
+           rel="nofollow">Pokaż źródło</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Szybkie wyszukiwanie</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Szukaj" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Wprowadź szukany termin lub nazwę modułu, klasy lub funkcji.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="stochastyczne-rownania-rozniczkowe">
+<h1>Stochastyczne równania różniczkowe<a class="headerlink" href="#stochastyczne-rownania-rozniczkowe" title="Stały odnośnik do tego nagłówka">¶</a></h1>
+<p>Po procesach ARMA, będących równaniami różnicowymi, których generowanie jest dość proste, nadszedł
+czas aby poznać metody rozwiązywania numerycznego stochastycznych równań różniczkowych (SDE, bo
+z angielskiego Stochastic Differential Equation). Metody
+rozwiązywania równań deterministycznych podane są <a class="reference external" href="./98_ode.html">pod koniec tego skryptu</a>.
+Bazując na wiedzy zawartej w tym właśnie dodatku opiszemy sobie najprostsze metody rozwiązywania
+SDE. Rozpatrywać będziemys równania typu</p>
+<div class="math">
+\[\frac{d x(t)}{dt} = F(x(t),t) + G(x(t),t) \Gamma (t),\]</div>
+<p>gdzie <span class="math">\(F\)</span> i <span class="math">\(G\)</span> to dowolne funkcje, a <span class="math">\(\Gamma(t)\)</span> jest dowolnym procesem
+stochastycznym (losowym), choć najcześciej pojawiającym się będzie szum biały. Powyższe
+równanie nie jest do końca precyzyjne. Musimy je jeszcze zinterpretować, gdyż mamy tu do
+czynienia z <a class="reference external" href="http://el.us.edu.pl/ekonofizyka/index.php/PIZL:Stochastyczne_r%C3%B3wnania_r%C3%B3%C5%BCniczkowe#Dylemat_Stratonowicza-Ito">dylematem Ito - Stratonowicza</a>.
+Jeżeli procesem losowy będzie biały szum gaussowski, możemy użyć notacji Ito i precyzyjnie zapisać</p>
+<div class="math">
+\[d x(t) = F(x(t),t)dt + G(x(t),t) dW (t).\]</div>
+<p>Nie zmienia to ogólności poniższych rozważań. Jeżeli dostalibyśmy równanie Stratonowicza, wystarczy
+przetransformować je do procesu Ito i postępować jak poniżej.</p>
+<p>Rozwiązywanie takich równań umożliwi nam generowanie realizacji danego procesu losowego, a co za tym
+idzie generowanie zdarzeń rynkowych opisywanych takimi modelami.</p>
+<div class="section" id="schemat-eulera-maruyamy">
+<h2>Schemat Eulera-Maruyamy<a class="headerlink" href="#schemat-eulera-maruyamy" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<p>Równania stochastyczne można podzielić na dwie części: część deterministyczną i losową. Pierwszą będziemy
+rozwiązywać metodami opisanymi <a class="reference external" href="./98_ode.html">na końcu skryptu</a>. Metodę rozwiazywania części drugiej
+podamy teraz. Zaczniemy od najprostszego modelu - schematu Eulera - Maruyamy.</p>
+<p>Ustalamy krok czasowy <cite>h</cite> jednocześnie dystretyzując oś czasu. Zmieniać się on będzie teraz
+<span class="math">\(t_1, t_2, t_3, \dots, t_N\)</span>. Różnica pomiędzy kolejnymi czasami da nam właśnie krok czasowy
+<span class="math">\(h = t_{i+1} - t_i\)</span>.
+Przepiszemy sobie równanie ruchu</p>
+<div class="math">
+\[x(t_i + h) = x(t_i) + \int_{t_i}^{t_i + h} F (x(t),t) dt + {\color{red} \int_{t_i}^{t_i + h} G(x(t),t) \Gamma(t) dt}.\]</div>
+<dl class="docutils">
+<dt>Uwaga</dt>
+<dd>Dalsza część tekstu wymaga przeczytania ze zrozumieniem jakiejkolwiek pozycji dotyczącej procesu Wienera.
+Osobiście polecam
+<a class="reference external" href="http://el.us.edu.pl/ekonofizyka/index.php/PIZL:Proces_Wienera_i_proces_dyfuzji">skrypt prof. Łuczki</a>.</dd>
+</dl>
+<p>Aby scałkować proces stochastyczny użyjemy formuły na przyrost procesu Wienera (proszę pamiętać, że
+zajmujemy się białym szumem gaussowskim).</p>
+<div class="math">
+\[\int_{t_i}^{t_i + h} \Gamma(t) dt =
+\int_{t_i}^{t_i + h} dW(t) =  W(t_i + h) - W(t_i)\]</div>
+<p>Z definicji procesu Wienera wiemy, że jest on procesem Gaussa o zerowej średniej i wariancji liniowej w czasie
+<span class="math">\(\langle [W(t_i + h) - W(t_i)]^2 \rangle = 2 D h\)</span>, co daje nam w sensie średnio-kwadratowym
+<span class="math">\(\Delta W \propto \sqrt{\langle [\Delta W (t)]^2 \rangle} = \sqrt{h}\)</span>. Na nieszczęście (ale tylko
+dla ortodoksyjnych matematyków) proces taki nie jest różniczkowalny, nawet w sensie średnio-kwadratowym. Nie
+przeszkadza to posługiwać się pochodną procesu Wienera i, co więcej, wnioskować polegając na takim zapisie!
+Jako, że z reguły posiadamy generator liczb losowych <cite>N(0,1)</cite> to scałkowanie procesu Wienera prowadzi do</p>
+<div class="math">
+\[\int_{t_i}^{t_i + h} \Gamma(t) dt = \sqrt{h} N(0,1).\]</div>
+<p>W &#8216;magiczny&#8217; sposób zniknęła nam funkcja <cite>G</cite>. Podobnie jak w klasycznym schemacie Eulera zakładamy, że funkcja
+<cite>G</cite> jest stała (lub bardzo wolno zmienna) na kroku <cite>h</cite>, więc można wyciągnąc ją przed znak całki. Odstatecznie
+wykorzystując tożsamość <span class="math">\(x(t_i) \equiv x_i\)</span> dostajemy wzór na numeryczny schemat EM</p>
+<div class="math">
+\[x_{i+1} = x_i + F (x_i,t_i) h + \sqrt{h} G(x_i,t_i) N(0,1).\]</div>
+<p>Ten zapis pokazuje też ważną cechę przy obliczaniu aproksymacji rozwiązań stochastycznych - najniższy rząd w
+<cite>h</cite> jest nie <span class="math">\(O(h)\)</span> ale <span class="math">\(O(\sqrt{h})\)</span>. Ponadto z takiego sformułowania widać też, że zmiany procesu
+Wienera w stosunku do przyrostów czasu są rozbieżne w granicy <span class="math">\(h \to 0\)</span>.</p>
+</div>
+<div class="section" id="schemat-millsteina">
+<h2>Schemat Millsteina<a class="headerlink" href="#schemat-millsteina" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<p>Dodaje on poprawkę do poprzedniego rozwiązania, powodując, że schemat staje się schematem pierwszego rzędu
+w sensie silnym. Dany jest on wzorem iteracyjnym</p>
+<div class="math">
+\[x_{i+1} = x_i + F (x_i,t_i) h -
+\frac{h}{2} G(x_i,t_i)G'(x_i,t_i) +
+\sqrt{h} G(x_i,t_i) N(0,1).\]</div>
+<p>W tym wzorze <span class="math">\(G'\)</span> oznacza pochodną po argumencie <span class="math">\(x\)</span>. Obie metody (Millsteina i Eulera-Maruyamy)
+redukują się do tego samego schematu gdy część losowa nie jest zależna od zmiennej <cite>x</cite>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="Indeks ogólny"
+             >indeks</a></li>
+        <li><a href="../../../index.html">KMZR</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Łukasz Machura.
+      Utworzone przy pomocy <a href="http://sphinx.pocoo.org/">Sphinx</a>'a 1.1.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,270 @@
+Liczby Losowe
+=============
+
+.. highlight:: python
+  :linenothreshold: 5
+
+Liczby losowe i pseudolosowe
+----------------------------
+
+Intuicyjnie dość dobrze rozumiemy co oznacza termin *liczba losowa*. Każdy z nas choć 
+raz w życiu podrzucił monetę do góry po to, by "ślepy los" zdecydował za niego o jakimś 
+wyborze (jeżeli w ten sposób zdecydowaliście o wyborze studiów, to szczerze mówiąc - 
+gratuluję). Oczywiście na monecie nie ma żadnych liczb, ale można sobie potraktować
+reszkę (R) jako 0 a orła (O) jako 1 (co bardzo dobrze reprezentuje fałsz i prawdę lub niemożliwe 
+i pewne zdarzenie w teorii prawdopodobieństwa). Teraz już możemy sobie podrzucać monetę 
+i na kartce papieru zapisywać kolejne wylosowane (wyrzucone) przez nas liczby
+
+::
+
+  0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1,
+
+co odpowiada oczywiście wyrzuceniu kolejno
+
+::
+
+  R, O, R, R, R, R, O, R, O, O, R, R, O, R, O.
+
+W naszym przypadku zapiszemy sobie te liczby od razu do listy w notatniku Sage. 
+
+.. code-block:: python
+  
+  rzuty = [0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1]
+
+Mamy teraz je dostępne pod zmienną ``rzuty``. Do prostych zagadnień, gdzie potrzebne jest nam
+kilka, czy nawet kilkanaście takich liczb, bez problemu możemy poradzić sobie rzucając monetą.
+Jeżeli potrzebujemy zadecydować o wyborze pomiędzy trzema możliwościami możemy użyć sześciennej 
+kości do gry i przykładowo wybrać wynik poprzez działanie modulo 3 (:math:`\text{mod} 3`). 
+Tym razem dostaniemy trzy możliwe liczby ``0, 1, 2``
+
+::
+
+  # rzuty kością
+  5, 3, 6, 5, 6, 6, 5, 3, 2, 4, 3, 1, 1, 6, 1,
+
+::
+
+  # modulo 3
+  2, 0, 0, 2, 0, 0, 2, 0, 2, 1, 0, 1, 1, 0, 1.
+
+Sytuacja zrobi się jednak nieco bardziej skomplikowana, gdy będziemy potrzebować tysiąc, milion czy 
+bilion takich liczb. Jeżeli nawet grupa 10 studentów była by w stanie wyrzucić monetą tysiąc 
+losowych zer i jedynek w pół godziny (włączając w to zapisywanie w liście Sage lub nawet na
+kartce papieru) to uzyskanie miliona liczb jest praktycznie nie do zrobienia w ten sposób. 
+problem pojawia się też w momencie, gdy chcielibyśmy mieć liczby naturalne z zakresu np: :math:`0-10`, 
+czy w końcu losowe liczby zmiennoprzecinkowe. Metody chałupnicze w tym momencie się kończą.
+
+Z pomocą może przyjść nam komputer (w końcu ten wykład jest o metodach komputerowych). Obecnie 
+znakomita większość języków programowania (przynajmniej tych realnie wykorzystywanych [#]_) 
+posiada w swoich standardowych bibliotekach funkcje
+(metody, klasy) umożliwiające wygenerowanie liczby (pseudo)losowej z przedziału ``[0,1)`` lub też
+``[0,RAND_MAX]``, gdzie ów ``RAND_MAX`` to stała zależna od architektury komputera, kompilatora i 
+bibliotek. 
+
+Uwaga
+  Jako, że programy/języki komputerowe zawsze generują liczby pseudolosowe, od tej pory mówiąc
+  o liczbach losowych generowanych w Sage/Python czy innych językach, będziemy zawsze mieć na myśli
+  liczby pseudolosowe. 
+
+W Sage liczby losowe uzyskuje się poprzez funkcję ``random()``. Zwraca ona liczbę losową z przedziału 
+``[0.0, 1.0)``. Wykorzysując proste wyrażenie listowe możemy przypisać do listy N liczb losowych.
+
+.. code-block:: python
+
+  N = 1000
+  lista = [random() for i in xrange(N)]
+
+Inna funkcja ``randint(a, b)``, zwraca liczby całkowite z przedziału ``[a,b]``. Czyli symulacja rzutu
+monetą może być zrealizowana poprzez
+
+.. code-block:: python
+
+  rzut_moneta = [randint(0,1) for i in xrange(N)]
+
+Zadanie
+  **Zamodeluj w Sage rzut kością.** Wygeneruj listę 1000 liczb odzwierciedlających 1000 rzutów symetryczną
+  sześcienną kością do gry. Wynik zapisz w zmiennej ``rzut_kostka``.
+
+Matematycznie rzecz biorąc liczbę losową można utożsamić z wartością jaką przybiera pewna zmienna losowa 
+:math:`\xi`. Możemy napisać, że dla procesu jakim jest rzut kością zmienna losowa :math:`\xi` może przybierać 
+wartości ``0`` lub ``1``. Matematyczne konsekwencje poznaliście już na wykładzie `Procesy i zjawiska losowe
+<http://el.us.edu.pl/ekonofizyka/index.php/Procesy_i_Zjawiska_Losowe>`_, tutaj zajmiemy się znacznie szerzej
+generowaniem liczb losowych i wykorzystaniem ich właśnie do realizacji procesów losowych, ze szczególnym
+uwzględnieniem zastosowania dla rynków finansowych, czy w ogólności w modelach ekonomicznych.
+
+No koniec tego rozdziału musimy sobie powiedzieć jasno: program komputerowy bazujący na deterministycznym 
+generatorze liczb losowych może wygenerować tylko i wyłącznie liczby pseudolosowe, czyli takie, które tylko
+imitują prawdziwe liczby czysto losowe. Te ostatnie osiągalne są tylko procesie rzeczywistym. Możemy jednak 
+za pomocą takich generatorów uzyskać ciąg liczb (bitów), który pod pewnymi względami będzie nierozróżnialny 
+od ciągu uzyskanego z prawdziwie losowego źródła (np: z rzutu rzeczywistą kością). 
+
+Generatory liczb
+----------------
+
+*Generator liczb losowych* (RNG, z ang. random number generator) lub nieco bardziej ściśle *generator
+zdarzeń losowych* (REG, z ang. random event generator) to układ produkujący losowy ciąg elementów 
+binarnych (bitów) najczęściej ułożony w postaci szeregu liczb losowych. Z punktu widzenia sposobu
+generowania liczb losowych wyróżniamy generatory sprzętowe (fizyczne, rzeczywiste) i programowe.
+
+Generatory sprzętowe
+++++++++++++++++++++
+
+TRNG (z ang. True RNG) - działające na zasadzie obrazowania właściwości i parametrów fizycznego procesu 
+stochastycznego. Może to być ów rzut kością, monetą, wybieranie karty z talii kart itp. Wykorzystywać 
+można też: efekt fotoelektryczny, szum termiczny, szum śrutowy, proces zaniku radioaktywnego...
+
+Generatory programowe
++++++++++++++++++++++
+
+PRNG, (z ang. Pseudo RNG) - działające na zasadzie deterministycznego obliczania ciągu liczb, które 
+wyglądają jak liczby losowe. Algorytmy realizujące PRNG istnieją już ponad pół wieku i są obecnie
+zaimplementowane dla większości języków programowania. Na podstawie początkowej wartości nazywanej
+ziarnem czy zarodkiem (z ang. seed) oblicza kolejne wartości.
+Obie prezentowane funkcje Sage (``random`` i ``randint``) korzystają właśnie z jednego z takich
+algorytmów, zwanego `Mersenne Twister <http://pl.wikipedia.org/wiki/Mersenne_Twister>`_. Jest to
+obecnie chyba najbardziej popularny algorytm opracowany w 1997 roku. Np. Matlab/GNU Octave 
+też wykorzystuje ten algorytm. Jest on stosunkowo skomplikowany i może być trudny do realizacji,
+dlatego też omówimy sobie dużo prostszy, liniowy generator i omówimy jego zalety i (przede wszystkim)
+wady.
+
+Programowe generowanie liczb losowych [#]_ oparte jest na rekurencji
+
+.. math:: 
+
+  x_i = f(x_{i-1}, x_{i-2}, \dots, x_{i-k}), 
+
+czy w nieco bardziej zwartej formie
+
+.. math::
+  
+  x_i = f(x_{i-1}).
+
+Sekwencje te będą w oczywisty sposób deterministyczne. Problem polega na wygenerowaniu liczb których
+własności bardzo dobrze przypominają główne własności liczb prawdziwie losowych. Dodatkowo sekwencje liczb
+pseudolosowych będą powtarzały się co pewien okres, więc dość istotne jest aby generator takich liczb
+posiadał ów okres jak najdłuższy.
+
+Liniowy generator kongruencyjny
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+LCG (linear congruential generator) wyznaczony jest przez metodę rekurencyjną
+
+.. math::
+
+  X_{n+1} = (a X_n + c) \quad \text{mod} \quad m.
+
+Stan początkowy to wartość ziarna (zalążka). Nie jest on zbytnio bezpieczny - istnieją techniki identyfikacji 
+parametrów modelu na podstawie obserwacji wyników. Dla niektórych parametrów jest prawie losowy a dla
+innych dość szybko staje się okresowy. W powyższej definicji :math:`x_0` to ziarno (zalążek), 
+:math:`a` mnożnik, :math:`c` przesunięcie a :math:`m \in \mathbb{Z}` nazywamy modułem. Dwie liczby nazywamy kongruentnymi 
+(przystającymi) modulo :math:`m` jeżeli ich różnica jest podzielna przez :math:`m`. Jeżeli :math:`0 \le a < m` oraz
+:math:`a \equiv b \; \text{mod} \; m` wtedy :math:`a` nazywamy resztą :math:`b \; \text{mod} \; m`. Liczbę :math:`a` można łatwo obliczyć
+z
+
+.. math::
+
+  a = b - \lfloor b/m \rfloor \times m
+
+gdzie funkcja podłoga (z ang. floor) :math:`\lfloor \circ \rfloor` oblicza największą liczbą całkowitą mniejszą od :math:`\circ`.
+
+Jeżeli weźmiemy :math:`c = 0` dostaniemy multiplikatywny generator kongruencyjny. Jeżeli chodzi o moduł, to typowymi wartościami 
+będą potęgi :math:`2^k`, a typowymi wartościami potęg bedą typowe wielkości maszynowe dla przechowywania liczb całkowitych.
+
+Implementacja LCG w Sage nie powinna nastręczać zbytnich problemów:
+
+.. code-block:: python
+  
+  def myLCG(x, a=1664525, b=1013904223, m=2**32):
+    return mod(a*x+b,m)
+
+Możemy teraz wygenerować N liczb używając LCG i zmagazynowac je w pythonowskiej liście. 
+
+.. code-block:: python
+
+  def get_from_LCG(n=1, seed=123):
+    ret = [seed]
+    for i in xrange(n-1):
+      ret.append(myLCG(ret[i]))
+    return ret
+
+  lcg_list = get_from_LCG(N)
+
+.. figure:: img/01/sage0.png
+   :alt: liczby losowe wygenerowane przy pomocy mylcg
+   :align: center
+
+   1000 liczb losowych wygenerowanych generatorem liniowym LCG
+
+Jak widać, program generuje liczby losowe z zakresu [0,m). 
+
+Rejestr przesuwający z liniowym sprzężeniem zwrotnym
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+TBA
+
+Generator Wichmanna -- Hilla
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+TBA
+
+Mersenne Twister
+~~~~~~~~~~~~~~~~
+
+TBA
+
+W dalszej części wykładu (a raczej ćwiczeń) będziemy bazować na domyślnym generowaniu liczb losowych w Sage. 
+Posłuży nam do tego wspominana już funkcja ``random()`` zwracająca liczbę pseudolosową o rozkładzie jednorodnym 
+na odcinku [0,1) (co często oznaczane jest poprzez :math:`U(0,1)`). Aby uzyskać liczbę z przedziału [0,12.76)
+wystarczy po prostu pomnożyć liczbę zwracną przez ``random()`` przez prawą granicę 
+
+.. code-block:: python
+
+  random()*12.76
+
+a żeby uzyskać listę 123 liczb z przedziału [-13.3, 33.1) należy wykonać
+
+.. code-block:: python
+
+  [random(33.1+13.3) - 13.3 for i in xrange(123)]
+
+W ogólności do wygenerowania listy N liczb losowych z przedziału [A,B) należy użyć polecenia
+
+.. code-block:: python
+
+  N = 100
+  A = -10
+  B = 20
+  [random(B-A) + A for i in xrange(N)]
+  
+Zadanie 2.2.1
+  Zmodyfikuj definicję ``mylcg`` tak, aby funkcja zwracała liczby losowe z przedziału [0,1).
+
+Zadanie 2.2.2
+  LCG zdefiniowany tak jak powyżej (
+
+Rozkłady
+--------
+
+N(0,1)
+
+Zadania
+-------
+
+Zad
+  Ile jest 2 + 2
+
+.. Skąd to Pitagoras wiedział??? :math:`a^2 + b^2 = c^2`
+
+.. .. math::
+
+..   (a + b)^2  &=  (a + b)(a + b) \\
+              &=  a^2 + 2ab + b^2
+
+
+----------------------------
+
+.. [#] Generator liczb pseudolosowych można napisać nawet dla tak egzotycznych języków jak 
+   `Brainf*ck <http://esolangs.org/wiki/brainfuck_algorithms#x_.3D_pseudo-random_number>`_.
+
+.. [#] Od tej chwili będziemy zawsze pisać *liczba losowa* a mieć na myśli *liczbę pseudolosową*, 
+   chyba, że napisane zostanie explicite, że mówimy o rzeczywistych liczbach losowych.

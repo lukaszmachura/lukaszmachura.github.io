@@ -1,0 +1,178 @@
+Stochastyczne równania różniczkowe
+==================================
+
+Stochastyczne równania różniczkowe (SDE, od angielskiej nazwy Stochastic differential equations)
+są obecnie uważane za standardowe narzędzie wykorzystywane do analizy niektórych wielkości opisujących
+dynamikę rynków finansowych. Do tych wielkości należą ceny aktywów, stopy procentowe czy ich pochodne. 
+W przeciwieństwie do zwyczajnych równań różniczkowych, które posiadają jendoznaczne rozwiązanie, 
+rozwiązaniami SDE są ciągłe w czasie procesy stochastyczne. Metody komputerowe wykorzystywane do analizy 
+SDE bazują na klasycznych metodach wykorzystywanych do rozwiązywania tradycyjnych, deterministycznych
+równań różniczkowych, są jednak uogólnione tak, aby radzić sobie z procesami losowymi.
+
+Zestaw zmiennych losowych :math:`X_t` indeksowanych liczbami rzeczywistymi `t` nazywamy procesem losowym
+ciągłym (ze względu na czas). Każda *realizacja* procesu losowego to przypadkowa wartość zmiennej 
+losowej :math:`X_t` dla każdego `t`, jest więc funkcją czasu. Co ciekawe, *każda* deterministyczna
+funkcja :math:`f(t)` może być uważana za proces stochastyczny, którego wariancja znika. 
+
+Najbardziej znanym przykładem procesu losowego szeroko występującego w modelach fizyki, chemii ale i
+rynków finansowych jest *proces Wienera* :math:`W(t) = W_t`, ciągły proces stochastyczny posiadający 
+nastepujące własności
+
+#) jest to proces rzeczywisty,
+
+#) startuje z zera (:math:`W_0 = 0`),
+
+#) ma stacjonarne i niezależne przyrosty na nieprzekrywających się przedziałach,
+
+#) jest procesem Gaussa o zerowej wartości średniej :math:`\langle W_t - W_s \rangle = 0`
+   i wariancji przyrostów :math:`\langle [W_t - W_s]^2 \rangle = 2 D (t -s)`,
+
+#) proces Wienera może być reprezentowany ciągłymi trajektoriami.
+
+Wynika z tego, że dla każdej różnicy czasów `t - s` zmienna losowa :math:`W_t - W_s` jest zmienną losową 
+gaussowską o zerowej wartości średniej i wariancji :math:`2D(t-s)`. Więc jego rozkład prawdopodobieństwa ma 
+postać
+
+.. math::
+
+   f_{W_t - W_s}(x) = \frac{1}{\sqrt{2 \pi D (t - s)}} \exp \Big[ -\frac{x^2}{4D(t-s)} \Big].
+
+Proces taki może być wyprowadzony jako proces graniczny błądzenia przypadkowego. Wystarczy tylko zbadać
+granicę dla której wielkość skoku i czas pomiędzy skokami będą maleć do zera. Tak zdefiniowanym procesem
+posługujemy się zwyczajowo, gdy podczas analizy probalmu pojawia się jakaś nieregularna siła czy zaburzenie
+którego nie możemy opisać równaniami deterministycznymi.
+
+Typowe dla rynków finansowych *równanie dyfuzji* może być modelowane przez równanie różniczkowe posiadające
+część deterministyczną zwaną **dryftem** oraz część losową zwaną **dyfuzją**. Ta ostatnia jest bardzo często
+reprezentowana właśnie przez proces Wienera. Możemy sobie napisać ogólne równanie
+
+.. math:: 
+ 
+   dX = a(t, X) dt + b(t,X) dW_t.
+
+Jest to postać różniczkowa. W zwykłych równaniach różniczkowych zazwyczaj stosujemu pochodne :math:`dx/dt`. W
+tym przypadku postać różniczkowa ma większy sens, jako, że wiele interesujących nas procesów losowych (jak
+ruch Browna) są procesami ciągłymi aczkolwiek nie są różniczkowalne. Powyższe równanie nabiera większego 
+sensu pod znakiem całki
+
+.. math::
+
+   X(t) = X(0) + \int_0^t a(s,y) ds \int_0^t b(s,y) dW_s.
+
+Ostatni wyraz z prawej zwany jest całką Ito. 
+
+Równanie Blacka-Scholesa
+------------------------
+
+Jednym z bardziej znanych, historycznym już równaniem stochastycznym, jest równanie opisujące geometryczny
+ruch Browna
+
+.. math::
+
+   dX = \mu X dt + \sigma X dW_t,
+
+gdzie :math:`\mu, \sigma` to wielkości stałe.
+Równanie to jest jednym z podstawowych elementów modelu wyceny opcji Blacka-Scholesa. Teoria ta została 
+nagrodzona Nagrodą Nobla z ekonomii w roku 1997, a opracowana przez absolwenta fizyki i doktora matematyki 
+Fischera Blacka oraz ekonomistę Myrona Scholesa. Teoria Blacka-Scholesa pozwala na wycenę wartości tzw. 
+finansowych instrumentów pochodnych, czyli opcji, oraz służy do optymalizacji "bezpiecznego" portfela 
+inwestycyjnego.
+
+Pomimo tego, że równanie to wygląda na proste, żeby nie powiedzieć zbyt proste na to by opisywać jakąkolwiek
+rzeczywistość na rynkach finansowych, ma ono olbrzymie znaczenie, jako, że może być rozwiązane ściśle
+dając wynikowy wzór z którego możemy wyliczyć zmianę cen prostych opcji. Jak już powiedzieliśmy, 
+rozwiązanie jest geometrycznym ruchem Browna
+
+.. math:: 
+
+   X(t) = X_0 \exp \Big[ \Big( \mu - \frac{\sigma^2}{2} \Big) t + \sigma dW_t \Big].
+
+Dzięki zamkniętej postaci rozwiązania mamy możliwość testowania metod numerycznych, które przedstawimy
+poniżej.
+
+Schemat Eulera-Maruyamy
+-----------------------
+
+Najprostszą metodą numerycznego rozwiązywania równań różniczkowych zwyczajnych jest metoda Eulera. Bazuje
+ona np. na rozwinięciu Tylora w pierwszym rzędzie przybliżenia. Stochastycznym analogiem tej metody
+jest metoda Eulera-Maruyamy. 
+
+Będziemy chcieli podać przybliżone rozwiązanie ogólnej postaci SDE na przedziale czasowym 
+:math:`t \in [t_0,t_E]`. Na początku zdyskretyzujemy sobie ów przedział czasowy, ustalając na siatkę
+`N` punktów
+
+.. math::
+
+   t_0 < t_1 < t_2 < \dots < t_{N-2} < t_E.
+
+Dążymy do tego, aby na tej siatce znaleźć przybliżone wartości zmiennej :math:`X`. Oznaczmy je
+
+.. math::
+   
+   w_0 < w_1 < w_2< \dots < w_{N-2} < w_E.
+
+Są to oczywiście przybliżone rozwiązania zmiennej :math:`x` dla odpowiednich czasów z powyższej siatki
+:math:`\{t_i\}`. Zakładając wartość początkową dla SDE :math:`X(t_0) = X_0` możemy pokusić się
+o rozwiązanie numeryczne w następującej postaci
+
+.. math::
+
+   w_0 = X_0
+
+   w_{i+1} = w_i + a (t_i, w_i) \Delta t_{i+1} + b(t_i, w_i) \Delta W_{i+1}
+
+   \Delta t_{i+1} = t_{i+1} - t_i
+
+   \Delta W_{i+1} = W(t_{i+1}) - W(t_i).
+
+Kluczową sprawą w tym punkcie jest problem: jak zamodelować :math:`\Delta W_i`? Mając do dyspozycji generator
+liczb losowych z rozkładem `N(0,1)` każdą losową liczbę :math:`\Delta W_i` obliczamy ze wzoru
+
+.. math:: 
+
+   \Delta W_i = \sqrt{\Delta t_i} z_i,
+
+gdzie :math:`z_i` jest losowana właśnie z `N(0,1)`. 
+Aby scałkować proces stochastyczny użyjemy formuły na przyrost procesu Wienera
+
+.. math::
+
+   \int_{t_i}^{t_{i+1}} \Gamma(t) dt =  
+   \int_{t_i}^{t_{i+1}} dW(t) =  W(t_{i+1}) - W(t_i)
+   
+Z definicji procesu Wienera wiemy, że jest on procesem Gaussa o zerowej średniej i wariancji liniowej w czasie
+:math:`\langle [W(t_{i+1}) - W(t_i)]^2 \rangle = 2 D \Delta t_i`, co daje nam w sensie średnio-kwadratowym
+:math:`\Delta W \propto \sqrt{\langle [\Delta W (t)]^2 \rangle} = \sqrt{\Delta t_i}`. Scałkowanie procesu Wienera 
+prowadzi do 
+
+.. math::
+
+   \int_{t_i}^{t_{i + 1}} dW_t = \sqrt{\Delta t_i} z_i.
+
+Jeżeli założymy sobie, że krok czasowy (odległości na siatce rozwiązań) jest stały i wynosi
+:math:`\Delta t_i = h` możemy napisać schemat explicite
+
+.. math::
+
+   w_{i+1} = w_i + h a(t_i, w_i) + \sqrt{h} b(t_i, w_i) z_i.
+
+Jako, że każdy zestaw wartości :math:`\{w_i\}, i=0,\dots,E` wyprodukowany przez powyższą formułę
+będzie przybliżonym rozwiązaniem procesu losowego, to i każda realizacja (każdy zestaw) będzie
+również losowa, a co za tym idzie - każda realizacja procesu będzie inna.
+
+Schemat Millsteina
+------------------
+Dodaje on poprawkę do poprzedniego rozwiązania, powodując, że schemat staje się schematem pierwszego rzędu 
+w sensie silnym. Dany jest on wzorem iteracyjnym
+
+.. math::
+   
+   w_0 = X_0
+
+   w_{i+1} = w_i + a(w_i,t_i) h - 
+   \frac{h}{2} b(x_i,t_i)\frac{\partial b}{\partial x}'(w_i,t_i)(z_i^2 - 1) +
+   \sqrt{h} b(w_i,t_i) z_i.
+
+Obie metody (Millsteina i Eulera-Maruyamy) redukują się do tego samego schematu gdy część losowa nie jest 
+zależna od zmiennej `x`. Jeżeli zależność istnieje, schemat Millsteina będzie szybciej zbieżny od 
+schematu EM.

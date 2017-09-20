@@ -1,0 +1,241 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Stochastyczne równania różniczkowe &mdash; Komputerowe modelowanie zjawisk rynkowych 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Komputerowe modelowanie zjawisk rynkowych 0.1 documentation" href="../index.html" />
+    <link rel="next" title="Przykłady całkowania procesów stochastycznych" href="05_przyklady_sde.html" />
+    <link rel="prev" title="ARMA" href="03_arma.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Indeks ogólny"
+             accesskey="I">indeks</a></li>
+        <li class="right" >
+          <a href="05_przyklady_sde.html" title="Przykłady całkowania procesów stochastycznych"
+             accesskey="N">dalej</a> |</li>
+        <li class="right" >
+          <a href="03_arma.html" title="ARMA"
+             accesskey="P">wstecz</a> |</li>
+        <li><a href="../index.html">KMZR</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Spis treści</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Stochastyczne równania różniczkowe</a><ul>
+<li><a class="reference internal" href="#rownanie-blacka-scholesa">Równanie Blacka-Scholesa</a></li>
+<li><a class="reference internal" href="#schemat-eulera-maruyamy">Schemat Eulera-Maruyamy</a></li>
+<li><a class="reference internal" href="#schemat-millsteina">Schemat Millsteina</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Poprzedni temat</h4>
+  <p class="topless"><a href="03_arma.html"
+                        title="poprzedni rozdział">ARMA</a></p>
+  <h4>Następny temat</h4>
+  <p class="topless"><a href="05_przyklady_sde.html"
+                        title="następny rozdział">Przykłady całkowania procesów stochastycznych</a></p>
+  <h3>Ta strona</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/sections/04_sde.txt"
+           rel="nofollow">Pokaż źródło</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Szybkie wyszukiwanie</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Szukaj" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Wprowadź szukany termin lub nazwę modułu, klasy lub funkcji.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="stochastyczne-rownania-rozniczkowe">
+<h1>Stochastyczne równania różniczkowe<a class="headerlink" href="#stochastyczne-rownania-rozniczkowe" title="Stały odnośnik do tego nagłówka">¶</a></h1>
+<p>Stochastyczne równania różniczkowe (SDE, od angielskiej nazwy Stochastic differential equations)
+są obecnie uważane za standardowe narzędzie wykorzystywane do analizy niektórych wielkości opisujących
+dynamikę rynków finansowych. Do tych wielkości należą ceny aktywów, stopy procentowe czy ich pochodne.
+W przeciwieństwie do zwyczajnych równań różniczkowych, które posiadają jendoznaczne rozwiązanie,
+rozwiązaniami SDE są ciągłe w czasie procesy stochastyczne. Metody komputerowe wykorzystywane do analizy
+SDE bazują na klasycznych metodach wykorzystywanych do rozwiązywania tradycyjnych, deterministycznych
+równań różniczkowych, są jednak uogólnione tak, aby radzić sobie z procesami losowymi.</p>
+<p>Zestaw zmiennych losowych <span class="math">\(X_t\)</span> indeksowanych liczbami rzeczywistymi <cite>t</cite> nazywamy procesem losowym
+ciągłym (ze względu na czas). Każda <em>realizacja</em> procesu losowego to przypadkowa wartość zmiennej
+losowej <span class="math">\(X_t\)</span> dla każdego <cite>t</cite>, jest więc funkcją czasu. Co ciekawe, <em>każda</em> deterministyczna
+funkcja <span class="math">\(f(t)\)</span> może być uważana za proces stochastyczny, którego wariancja znika.</p>
+<p>Najbardziej znanym przykładem procesu losowego szeroko występującego w modelach fizyki, chemii ale i
+rynków finansowych jest <em>proces Wienera</em> <span class="math">\(W(t) = W_t\)</span>, ciągły proces stochastyczny posiadający
+nastepujące własności</p>
+<ol class="arabic simple">
+<li>jest to proces rzeczywisty,</li>
+<li>startuje z zera (<span class="math">\(W_0 = 0\)</span>),</li>
+<li>ma stacjonarne i niezależne przyrosty na nieprzekrywających się przedziałach,</li>
+<li>jest procesem Gaussa o zerowej wartości średniej <span class="math">\(\langle W_t - W_s \rangle = 0\)</span>
+i wariancji przyrostów <span class="math">\(\langle [W_t - W_s]^2 \rangle = 2 D (t -s)\)</span>,</li>
+<li>proces Wienera może być reprezentowany ciągłymi trajektoriami.</li>
+</ol>
+<p>Wynika z tego, że dla każdej różnicy czasów <cite>t - s</cite> zmienna losowa <span class="math">\(W_t - W_s\)</span> jest zmienną losową
+gaussowską o zerowej wartości średniej i wariancji <span class="math">\(2D(t-s)\)</span>. Więc jego rozkład prawdopodobieństwa ma
+postać</p>
+<div class="math">
+\[f_{W_t - W_s}(x) = \frac{1}{\sqrt{2 \pi D (t - s)}} \exp \Big[ -\frac{x^2}{4D(t-s)} \Big].\]</div>
+<p>Proces taki może być wyprowadzony jako proces graniczny błądzenia przypadkowego. Wystarczy tylko zbadać
+granicę dla której wielkość skoku i czas pomiędzy skokami będą maleć do zera. Tak zdefiniowanym procesem
+posługujemy się zwyczajowo, gdy podczas analizy probalmu pojawia się jakaś nieregularna siła czy zaburzenie
+którego nie możemy opisać równaniami deterministycznymi.</p>
+<p>Typowe dla rynków finansowych <em>równanie dyfuzji</em> może być modelowane przez równanie różniczkowe posiadające
+część deterministyczną zwaną <strong>dryftem</strong> oraz część losową zwaną <strong>dyfuzją</strong>. Ta ostatnia jest bardzo często
+reprezentowana właśnie przez proces Wienera. Możemy sobie napisać ogólne równanie</p>
+<div class="math">
+\[dX = a(t, X) dt + b(t,X) dW_t.\]</div>
+<p>Jest to postać różniczkowa. W zwykłych równaniach różniczkowych zazwyczaj stosujemu pochodne <span class="math">\(dx/dt\)</span>. W
+tym przypadku postać różniczkowa ma większy sens, jako, że wiele interesujących nas procesów losowych (jak
+ruch Browna) są procesami ciągłymi aczkolwiek nie są różniczkowalne. Powyższe równanie nabiera większego
+sensu pod znakiem całki</p>
+<div class="math">
+\[X(t) = X(0) + \int_0^t a(s,y) ds \int_0^t b(s,y) dW_s.\]</div>
+<p>Ostatni wyraz z prawej zwany jest całką Ito.</p>
+<div class="section" id="rownanie-blacka-scholesa">
+<h2>Równanie Blacka-Scholesa<a class="headerlink" href="#rownanie-blacka-scholesa" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<p>Jednym z bardziej znanych, historycznym już równaniem stochastycznym, jest równanie opisujące geometryczny
+ruch Browna</p>
+<div class="math">
+\[dX = \mu X dt + \sigma X dW_t,\]</div>
+<p>gdzie <span class="math">\(\mu, \sigma\)</span> to wielkości stałe.
+Równanie to jest jednym z podstawowych elementów modelu wyceny opcji Blacka-Scholesa. Teoria ta została
+nagrodzona Nagrodą Nobla z ekonomii w roku 1997, a opracowana przez absolwenta fizyki i doktora matematyki
+Fischera Blacka oraz ekonomistę Myrona Scholesa. Teoria Blacka-Scholesa pozwala na wycenę wartości tzw.
+finansowych instrumentów pochodnych, czyli opcji, oraz służy do optymalizacji &#8220;bezpiecznego&#8221; portfela
+inwestycyjnego.</p>
+<p>Pomimo tego, że równanie to wygląda na proste, żeby nie powiedzieć zbyt proste na to by opisywać jakąkolwiek
+rzeczywistość na rynkach finansowych, ma ono olbrzymie znaczenie, jako, że może być rozwiązane ściśle
+dając wynikowy wzór z którego możemy wyliczyć zmianę cen prostych opcji. Jak już powiedzieliśmy,
+rozwiązanie jest geometrycznym ruchem Browna</p>
+<div class="math">
+\[X(t) = X_0 \exp \Big[ \Big( \mu - \frac{\sigma^2}{2} \Big) t + \sigma dW_t \Big].\]</div>
+<p>Dzięki zamkniętej postaci rozwiązania mamy możliwość testowania metod numerycznych, które przedstawimy
+poniżej.</p>
+</div>
+<div class="section" id="schemat-eulera-maruyamy">
+<h2>Schemat Eulera-Maruyamy<a class="headerlink" href="#schemat-eulera-maruyamy" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<p>Najprostszą metodą numerycznego rozwiązywania równań różniczkowych zwyczajnych jest metoda Eulera. Bazuje
+ona np. na rozwinięciu Tylora w pierwszym rzędzie przybliżenia. Stochastycznym analogiem tej metody
+jest metoda Eulera-Maruyamy.</p>
+<p>Będziemy chcieli podać przybliżone rozwiązanie ogólnej postaci SDE na przedziale czasowym
+<span class="math">\(t \in [t_0,t_E]\)</span>. Na początku zdyskretyzujemy sobie ów przedział czasowy, ustalając na siatkę
+<cite>N</cite> punktów</p>
+<div class="math">
+\[\begin{split}t_0 &lt; t_1 &lt; t_2 &lt; \dots &lt; t_{N-2} &lt; t_E.\end{split}\]</div>
+<p>Dążymy do tego, aby na tej siatce znaleźć przybliżone wartości zmiennej <span class="math">\(X\)</span>. Oznaczmy je</p>
+<div class="math">
+\[\begin{split}w_0 &lt; w_1 &lt; w_2&lt; \dots &lt; w_{N-2} &lt; w_E.\end{split}\]</div>
+<p>Są to oczywiście przybliżone rozwiązania zmiennej <span class="math">\(x\)</span> dla odpowiednich czasów z powyższej siatki
+<span class="math">\(\{t_i\}\)</span>. Zakładając wartość początkową dla SDE <span class="math">\(X(t_0) = X_0\)</span> możemy pokusić się
+o rozwiązanie numeryczne w następującej postaci</p>
+<div class="math">
+\[w_0 = X_0\]\[w_{i+1} = w_i + a (t_i, w_i) \Delta t_{i+1} + b(t_i, w_i) \Delta W_{i+1}\]\[\Delta t_{i+1} = t_{i+1} - t_i\]\[\Delta W_{i+1} = W(t_{i+1}) - W(t_i).\]</div>
+<p>Kluczową sprawą w tym punkcie jest problem: jak zamodelować <span class="math">\(\Delta W_i\)</span>? Mając do dyspozycji generator
+liczb losowych z rozkładem <cite>N(0,1)</cite> każdą losową liczbę <span class="math">\(\Delta W_i\)</span> obliczamy ze wzoru</p>
+<div class="math">
+\[\Delta W_i = \sqrt{\Delta t_i} z_i,\]</div>
+<p>gdzie <span class="math">\(z_i\)</span> jest losowana właśnie z <cite>N(0,1)</cite>.
+Aby scałkować proces stochastyczny użyjemy formuły na przyrost procesu Wienera</p>
+<div class="math">
+\[\int_{t_i}^{t_{i+1}} \Gamma(t) dt =
+\int_{t_i}^{t_{i+1}} dW(t) =  W(t_{i+1}) - W(t_i)\]</div>
+<p>Z definicji procesu Wienera wiemy, że jest on procesem Gaussa o zerowej średniej i wariancji liniowej w czasie
+<span class="math">\(\langle [W(t_{i+1}) - W(t_i)]^2 \rangle = 2 D \Delta t_i\)</span>, co daje nam w sensie średnio-kwadratowym
+<span class="math">\(\Delta W \propto \sqrt{\langle [\Delta W (t)]^2 \rangle} = \sqrt{\Delta t_i}\)</span>. Scałkowanie procesu Wienera
+prowadzi do</p>
+<div class="math">
+\[\int_{t_i}^{t_{i + 1}} dW_t = \sqrt{\Delta t_i} z_i.\]</div>
+<p>Jeżeli założymy sobie, że krok czasowy (odległości na siatce rozwiązań) jest stały i wynosi
+<span class="math">\(\Delta t_i = h\)</span> możemy napisać schemat explicite</p>
+<div class="math">
+\[w_{i+1} = w_i + h a(t_i, w_i) + \sqrt{h} b(t_i, w_i) z_i.\]</div>
+<p>Jako, że każdy zestaw wartości <span class="math">\(\{w_i\}, i=0,\dots,E\)</span> wyprodukowany przez powyższą formułę
+będzie przybliżonym rozwiązaniem procesu losowego, to i każda realizacja (każdy zestaw) będzie
+również losowa, a co za tym idzie - każda realizacja procesu będzie inna.</p>
+</div>
+<div class="section" id="schemat-millsteina">
+<h2>Schemat Millsteina<a class="headerlink" href="#schemat-millsteina" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<p>Dodaje on poprawkę do poprzedniego rozwiązania, powodując, że schemat staje się schematem pierwszego rzędu
+w sensie silnym. Dany jest on wzorem iteracyjnym</p>
+<div class="math">
+\[w_0 = X_0\]\[w_{i+1} = w_i + a(w_i,t_i) h -
+\frac{h}{2} b(x_i,t_i)\frac{\partial b}{\partial x}'(w_i,t_i)(z_i^2 - 1) +
+\sqrt{h} b(w_i,t_i) z_i.\]</div>
+<p>Obie metody (Millsteina i Eulera-Maruyamy) redukują się do tego samego schematu gdy część losowa nie jest
+zależna od zmiennej <cite>x</cite>. Jeżeli zależność istnieje, schemat Millsteina będzie szybciej zbieżny od
+schematu EM.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Indeks ogólny"
+             >indeks</a></li>
+        <li class="right" >
+          <a href="05_przyklady_sde.html" title="Przykłady całkowania procesów stochastycznych"
+             >dalej</a> |</li>
+        <li class="right" >
+          <a href="03_arma.html" title="ARMA"
+             >wstecz</a> |</li>
+        <li><a href="../index.html">KMZR</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Łukasz Machura.
+      Utworzone przy pomocy <a href="http://sphinx.pocoo.org/">Sphinx</a>'a 1.1.3.
+    </div>
+  </body>
+</html>

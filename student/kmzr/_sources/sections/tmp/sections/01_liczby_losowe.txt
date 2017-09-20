@@ -1,0 +1,828 @@
+Liczby Losowe
+=============
+
+.. highlight:: python
+  :linenothreshold: 5
+
+Liczby losowe i pseudolosowe
+----------------------------
+
+Intuicyjnie dość dobrze rozumiemy co oznacza termin *liczba losowa*. Każdy z nas choć 
+raz w życiu podrzucił monetę do góry po to, by "ślepy los" zdecydował za niego o jakimś 
+wyborze (jeżeli w ten sposób zdecydowaliście o wyborze studiów, to szczerze mówiąc - 
+gratuluję). Oczywiście na monecie nie ma żadnych liczb, ale można sobie potraktować
+reszkę (R) jako 0 a orła (O) jako 1 (co bardzo dobrze reprezentuje fałsz i prawdę lub niemożliwe 
+i pewne zdarzenie w teorii prawdopodobieństwa). Teraz już możemy sobie podrzucać monetę 
+i na kartce papieru zapisywać kolejne wylosowane (wyrzucone) przez nas liczby
+
+::
+
+  0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1,
+
+co odpowiada oczywiście wyrzuceniu kolejno
+
+::
+
+  R, O, R, R, R, R, O, R, O, O, R, R, O, R, O.
+
+W naszym przypadku zapiszemy sobie te liczby od razu do listy w notatniku Sage. 
+
+.. code-block:: python
+  
+  rzuty = [0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1]
+
+Mamy teraz je dostępne pod zmienną ``rzuty``. Do prostych zagadnień, gdzie potrzebne jest nam
+kilka, czy nawet kilkanaście takich liczb, bez problemu możemy poradzić sobie rzucając monetą.
+Jeżeli potrzebujemy zadecydować o wyborze pomiędzy trzema możliwościami możemy użyć sześciennej 
+kości do gry i przykładowo wybrać wynik poprzez działanie modulo 3 (:math:`\text{mod} 3`). 
+Tym razem dostaniemy trzy możliwe liczby ``0, 1, 2``
+
+::
+
+  # rzuty kością
+  5, 3, 6, 5, 6, 6, 5, 3, 2, 4, 3, 1, 1, 6, 1,
+
+::
+
+  # modulo 3
+  2, 0, 0, 2, 0, 0, 2, 0, 2, 1, 0, 1, 1, 0, 1.
+
+Sytuacja zrobi się jednak nieco bardziej skomplikowana, gdy będziemy potrzebować tysiąc, milion czy 
+bilion takich liczb. Jeżeli nawet grupa 10 studentów była by w stanie wyrzucić monetą tysiąc 
+losowych zer i jedynek w pół godziny (włączając w to zapisywanie w liście Sage lub nawet na
+kartce papieru) to uzyskanie miliona liczb jest praktycznie nie do zrobienia w ten sposób. 
+problem pojawia się też w momencie, gdy chcielibyśmy mieć liczby naturalne z zakresu np: :math:`0-10`, 
+czy w końcu losowe liczby zmiennoprzecinkowe. Metody chałupnicze w tym momencie się kończą.
+
+Z pomocą może przyjść nam komputer (w końcu ten wykład jest o metodach komputerowych). Obecnie 
+znakomita większość języków programowania (przynajmniej tych realnie wykorzystywanych [#]_) 
+posiada w swoich standardowych bibliotekach funkcje
+(metody, klasy) umożliwiające wygenerowanie liczby (pseudo)losowej z przedziału ``[0,1)`` lub też
+``[0,RAND_MAX]``, gdzie ów ``RAND_MAX`` to stała zależna od architektury komputera, kompilatora i 
+bibliotek. 
+
+W Sage liczby losowe uzyskuje się poprzez funkcję ``random()``. Zwraca ona liczbę losową z przedziału 
+``[0.0, 1.0)``. Wykorzysując proste wyrażenie listowe możemy przypisać do listy N liczb losowych.
+
+.. code-block:: python
+
+  N = 1000
+  lista = [random() for i in xrange(N)]
+
+Inna funkcja ``randint(a, b)``, zwraca liczby całkowite z przedziału ``[a,b]``. Czyli symulacja rzutu
+monetą może być zrealizowana poprzez
+
+.. code-block:: python
+
+  rzut_moneta = [randint(0,1) for i in xrange(N)]
+
+Zadanie 2.2.1
+  **Zamodeluj w Sage rzut kością.** Wygeneruj listę 1000 liczb odzwierciedlających 1000 rzutów symetryczną
+  sześcienną kością do gry. Wynik zapisz w zmiennej ``rzut_kostka``.
+
+Matematycznie rzecz biorąc liczbę losową można utożsamić z wartością jaką przybiera pewna zmienna losowa 
+:math:`\xi`. Możemy napisać, że dla procesu jakim jest rzut kością zmienna losowa :math:`\xi` może przybierać 
+wartości ``0`` lub ``1``. Matematyczne konsekwencje poznaliście już na wykładzie `Procesy i zjawiska losowe
+<http://el.us.edu.pl/ekonofizyka/index.php/Procesy_i_Zjawiska_Losowe>`_, tutaj zajmiemy się znacznie szerzej
+generowaniem liczb losowych i wykorzystaniem ich właśnie do realizacji procesów losowych, ze szczególnym
+uwzględnieniem zastosowania dla rynków finansowych, czy w ogólności w modelach ekonomicznych.
+
+No koniec tego rozdziału musimy sobie powiedzieć jasno: program komputerowy bazujący na deterministycznym 
+generatorze liczb losowych może wygenerować tylko i wyłącznie liczby pseudolosowe, czyli takie, które tylko
+imitują prawdziwe liczby czysto losowe. Te ostatnie osiągalne są tylko procesie rzeczywistym. Możemy jednak 
+za pomocą takich generatorów uzyskać ciąg liczb (bitów), który pod pewnymi względami będzie nierozróżnialny 
+od ciągu uzyskanego z prawdziwie losowego źródła (np: z rzutu rzeczywistą kością). 
+
+Generatory liczb
+----------------
+
+*Generator liczb losowych* (RNG, z ang. random number generator) lub nieco bardziej ściśle *generator
+zdarzeń losowych* (REG, z ang. random event generator) to układ produkujący losowy ciąg elementów 
+binarnych (bitów) najczęściej ułożony w postaci szeregu liczb losowych. Z punktu widzenia sposobu
+generowania liczb losowych wyróżniamy generatory sprzętowe (fizyczne, rzeczywiste) i programowe.
+
+Generatory sprzętowe
+++++++++++++++++++++
+
+TRNG (z ang. True RNG) - działające na zasadzie obrazowania właściwości i parametrów fizycznego procesu 
+stochastycznego. Może to być ów rzut kością, monetą, wybieranie karty z talii kart itp. Wykorzystywać 
+można też: efekt fotoelektryczny, szum termiczny, szum śrutowy, proces zaniku radioaktywnego...
+
+Generatory programowe
++++++++++++++++++++++
+
+PRNG, (z ang. Pseudo RNG) - działające na zasadzie deterministycznego obliczania ciągu liczb, które 
+wyglądają jak liczby losowe. Algorytmy realizujące PRNG istnieją już ponad pół wieku i są obecnie
+zaimplementowane dla większości języków programowania. Na podstawie początkowej wartości nazywanej
+ziarnem czy zarodkiem (z ang. seed) oblicza kolejne wartości.
+Obie prezentowane funkcje Sage (``random`` i ``randint``) korzystają właśnie z jednego z takich
+algorytmów, zwanego `Mersenne Twister <http://pl.wikipedia.org/wiki/Mersenne_Twister>`_. Jest to
+obecnie chyba najbardziej popularny algorytm opracowany w 1997 roku. Np. Matlab/GNU Octave 
+też wykorzystuje ten algorytm. Jest on stosunkowo skomplikowany i może być trudny do realizacji,
+dlatego też omówimy sobie dużo prostszy, liniowy generator i omówimy jego zalety i (przede wszystkim)
+wady.
+
+Programowe generowanie liczb losowych [#]_ oparte jest na rekurencji
+
+.. math:: 
+
+  x_i = f(x_{i-1}, x_{i-2}, \dots, x_{i-k}), 
+
+czy w nieco bardziej zwartej formie
+
+.. math::
+  
+  x_i = f(x_{i-1}).
+
+Sekwencje te będą w oczywisty sposób deterministyczne. Problem polega na wygenerowaniu liczb których
+własności bardzo dobrze przypominają główne własności liczb prawdziwie losowych. Dodatkowo sekwencje liczb
+pseudolosowych będą powtarzały się co pewien okres, więc dość istotne jest aby generator takich liczb
+posiadał ów okres jak najdłuższy.
+
+Liniowy generator kongruencyjny
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+LCG (linear congruential generator) wyznaczony jest przez metodę rekurencyjną
+
+.. math::
+
+  X_{n+1} = (a X_n + c) \quad \text{mod} \quad m.
+
+Stan początkowy to wartość ziarna (zalążka). Nie jest on zbytnio bezpieczny - istnieją techniki identyfikacji 
+parametrów modelu na podstawie obserwacji wyników. Dla niektórych parametrów jest prawie losowy a dla
+innych dość szybko staje się okresowy. W powyższej definicji :math:`x_0` to ziarno (zalążek), 
+:math:`a` mnożnik, :math:`c` przesunięcie a :math:`m \in \mathbb{Z}` nazywamy modułem. Dwie liczby nazywamy kongruentnymi 
+(przystającymi) modulo :math:`m` jeżeli ich różnica jest podzielna przez :math:`m`. Jeżeli :math:`0 \le a < m` oraz
+:math:`a \equiv b \; \text{mod} \; m` wtedy :math:`a` nazywamy resztą :math:`b \; \text{mod} \; m`. Liczbę :math:`a` można łatwo obliczyć
+z
+
+.. math::
+
+  a = b - \lfloor b/m \rfloor \times m
+
+gdzie funkcja podłoga (z ang. floor) :math:`\lfloor \circ \rfloor` oblicza największą liczbą całkowitą mniejszą od :math:`\circ`.
+
+Jeżeli weźmiemy :math:`c = 0` dostaniemy multiplikatywny generator kongruencyjny. Jeżeli chodzi o moduł, to typowymi wartościami 
+będą potęgi :math:`2^k`, a wartościami tych potęg bedą typowe wielkości maszynowe dla przechowywania liczb całkowitych.
+Tak było przynajmniej dla wczesnych realizacji takiego generatora, co związane było z możliwością łatwej redukcji modulo
+poprzez wykorzystanie przepełnienia w stałopozycyjnej reprezentacji liczb w operacji mnożenia (w ciele liczb
+całkowitych) :math:`a x_i`. W operacjach stałoprzecinkowych pierwszy bit reprezentuje znak, wobec czego w wyniku takiego mnożenia
+zamiast liczb z zakresu :math:`[0, 2^{32} -1)` dostaniemy liczby z zakresu :math:`[-2^{31}+1, 2^{31}-1]`. W ogólności wykonując 
+operacje na liczbach większych od :math:`2^{31}-1` jako wynik zachowujemy tylko bity niskiego rzędu.
+
+Mnożnik `a` wybierać trzeba w taki sposób, aby LCG miał jak najdłuższy okres. Na 32-bitowych maszynach popularnymi wartościami 
+początkowo były :math:`m=2^{32}` i :math:`a=65539`. Jako, że dzisiejsze komputery są na tyle wydajne, by przeprowadzać reducję
+modulo bardzo wydajnie, wiele ówczesnych implementacji generatora wykorzystuje operacje zmiennoprzecinkowe o zwiększonej precyzji.
+Inne wartości :math:`a=1099087573, 2396548189, 3934873077, 2304580733` również produkują porządne sekwencje liczb losowych.
+
+Innym dobrym wyborem dla `m` jest podstawienie dużej liczby pierwszej `p`. Wtedy okresem LCG będzie `p-1` jeżeli tylko 
+mnożnik ustawimy jako jego pierwiastek pierwotny. Szczególnie ważne wydają się być liczby pierwsze postaci
+:math:`2^p -1`, nazywane liczbami Mersenne'a. Na maszynach 32-bitowych popularnym wyborem bywa para 
+:math:`m=2^{31}-1` i jej pierwiastek pierwotny :math:`a=7^5=16807`.
+
+Implementacja LCG w Sage nie powinna nastręczać zbytnich problemów:
+
+.. code-block:: python
+  
+  def myLCG(x, a=1664525, b=1013904223, m=2**32):
+    return mod(a*x+b,m)
+
+Możemy teraz wygenerować N liczb używając LCG i zmagazynowac je w pythonowskiej liście. 
+
+.. code-block:: python
+
+  def get_from_LCG(n=1, seed=123):
+    ret = [seed]
+    for i in xrange(n-1):
+      ret.append(myLCG(ret[i]))
+    return ret
+
+  lcg_list = get_from_LCG(N)
+
+.. figure:: img/01/sage0.png
+   :alt: liczby losowe wygenerowane przy pomocy mylcg
+   :align: center
+
+   1000 liczb losowych wygenerowanych generatorem liniowym LCG
+
+Jak widać, program generuje liczby losowe z zakresu [0,m). 
+
+Rejestr przesuwający z liniowym sprzężeniem zwrotnym
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+TBA
+
+Generator Wichmanna -- Hilla
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+TBA
+
+Mersenne Twister
+~~~~~~~~~~~~~~~~
+
+TBA
+
+W dalszej części wykładu (a raczej ćwiczeń) będziemy bazować na domyślnym generowaniu liczb losowych w Sage. 
+Posłuży nam do tego wspominana już funkcja ``random()`` zwracająca liczbę pseudolosową o rozkładzie jednorodnym 
+na odcinku [0,1) (co często oznaczane jest poprzez :math:`U(0,1)`). 
+
+.. math::
+  
+  U(0,1) = \left\{ \begin{array}{l l} 1 & \quad 0 \le x < 1\\ 0 & \quad \text{poza}\\ \end{array} \right.
+
+Aby uzyskać liczbę z przedziału [0,12.76)
+wystarczy po prostu pomnożyć liczbę zwracną przez ``random()`` przez prawą granicę 
+
+.. code-block:: python
+
+  random()*12.76
+
+a żeby uzyskać listę 123 liczb z przedziału [-13.3, 33.1) należy wykonać
+
+.. code-block:: python
+
+  [random(33.1+13.3) - 13.3 for i in xrange(123)]
+
+W ogólności do wygenerowania listy N liczb losowych z przedziału [A,B) należy użyć polecenia
+
+.. code-block:: python
+
+  N = 100
+  A = -10
+  B = 20
+  [random(B-A) + A for i in xrange(N)]
+  
+Zadanie 2.2.2
+  Zmodyfikuj definicję ``mylcg`` tak, aby funkcja zwracała liczby losowe z przedziału [0,1).
+
+Zadanie 2.2.3
+  LCG zdefiniowany tak jak powyżej produkuje stosunkowo dobre liczby losowe (prace naukowe
+  nad tym stosunkowo prostym generatorem trwają do dzisiaj, dowodzone są coraz to inne
+  okresy bazujące na wyborze różnych zestawów parametrów :math:`a,c,m`). Naszym zadaniem 
+  będzie natomiast zepsucie takiego generatora. Proszę znaleźć (numerycznie) 4 zestawy 
+  parametrów definiujących LCG takich, aby okres generatora był krótki. Wykreśl w Sage
+  4 rysunki LCG(N) (dla powiedzmy N=1000) dla owych parametrów. Powinieneś zauważyć 
+  regularność.
+
+Generowanie liczb losowych o zadanym rozkładzie
+-----------------------------------------------
+
+Jako, że już dysponujemy generatorem liczb losowych o rozkładzie jednostajnym na odcinku
+:math:`[0,1) - U(0,1)` to możemy pokusić się o wygenerowanie liczb losowych o różnych innych rozkładach 
+prawdopodobieństwa. Znane jest kilka metod generowania takich liczb. Wszystkie przedstawione
+tutaj będą opierały się na tym, że umiemy generować liczby z rozkładem U(0,1). Szczególną uwagę
+poświęcimy generowaniu liczb z rozkładem N(0,1). Jest to standardowy zapis oznaczający rozkład 
+normalny (Gaussa) o średniej równej 0 i odchyleniu standardowym równym 1.
+Zanim omówimy pierwszą metodę, wcześniej zdefiniujemy sobie pojęcie
+*histogramu*. Będzie nam on potrzebny do wizualizacji rozkładów (czy raczej ich gęstości) z wygenerowanych 
+liczb losowych.
+
+Histogram
++++++++++
+
+Wikipedia definiuje histogram jako jeden z graficznych sposobów przedstawiania rozkładu empirycznego cechy. 
+Konstruuje się go jako szereg prostokątów odpowiadających liczebności elementów wpadających do określonego 
+przedziału klasowego. Szerokości przedziałów klasowych mogą mieć stałe lub zmienne długości. W bardziej 
+matematycznym sensie histogram to funkcja zliczająca ilość obserwacji pasujących do oddzielnych przedziałów
+klasowych. Jeżeli `n` oznacza liczbę wszystkich obserwacji, a `k` to liczba przedziałów, wtedy histogram 
+:math:`m_i` spełnia następujący warunek
+
+.. math::
+
+  n = \sum_{i=1}^k m_i
+
+Ideę histogramu najlepiej zrozumiec na przykładzie.
+  Mamy następującą listę liczb 
+
+  .. code-block:: python
+
+    l = [1, -3, -5, -1, -3, 1, 5, 1, 3, -3, 4, 2, 4, -1, 4, 5, -2, 4, 3, -4]
+
+  Budując histogram na początku musimy ustalić szerokość przedziału. Zacznijmy od łatwiejszej wersji: niech
+  szerokość będzie stała. Najlepiej podzielić ową listę na przedziały zawierające liczby całkowite. W zasadzie
+  wystarczy zliczać ile jest poszczególnych liczb całkowitych w liście l. Zróbmy to. Widzimy, że mamy 
+
+  == == == == == == == == == == ==
+  -5 -4 -3 -2 -1 0  1  2  3  4  5
+  == == == == == == == == == == ==
+  1  1  3  1  2  0  3  1  2  4  2
+  == == == == == == == == == == ==
+  
+  W zasadzie mamy już nasz histogram. Jeżeli posumujemy ilość elementów listy (``len(l)``), oraz obliczymy `n` 
+  zobaczymy, że dostaniemy tą samą liczbę (=20). Pozostaje narysować ów histogram. Na odciętej musimy odłożyć
+  przedziały klasowe a na rzędnej liczebności danego przedziału. Przyjęło się rysować histogram używając
+  słupków. Sage na chwilę obecną posiada kilka metod narysowania takiego histogramu. Jeżeli nie zależy nam na
+  poprawnym opisaniu odciętej (np: chcemy tylko zobaczyć kształt histogramu), wystarczy napisać
+
+  .. code-block:: python
+    
+    h = [l.count(i) for i in range(-5,6)]
+    bar_chart(h, width=1, color="orangered").show(axes_labels=['$i$','$\#$'], title="histogram")
+
+  Co pozwoli nam wygenerować taki rysunek:
+
+  .. figure:: img/01/bar_chart.png
+    :alt: bar_chart liczebności
+    :align: center
+
+    Prosty wykres liczebności, gdzie wykorzystaliśmy funkcję box_plot().
+
+  Nie jest to prawdziwy histogram, bowiem odłożone na osi OY liczebności powinny odpowiadać rzeczywistym 
+  wartościom (przedziałom). Możemy skorzystać z pakietu ``Time Series`` dostępnego w Sage. Wystarczą
+  prosta komenda aby uzyskać dostęp do wielu statystycznych funkcji typowych dla analizy szeregu czasowego.
+
+  .. code-block:: python
+
+    v = finance.TimeSeries(l)
+  
+  I teraz aby obliczyć histogram dla 10 równych przedziałów (od minimalnej do maksymalnej wartości występującej
+  w liście ``l``), wystarczy napisać
+
+  .. code-block:: python
+    
+    v.histogram(bins=11)
+
+  a aby narysować jego wykres
+
+  .. code-block:: python
+
+    v.plot_histogram(bins=11, normalize=0, color="orangered", axes_labels=['$i$','$\#$'])
+
+  .. figure:: img/01/histogram.png
+    :alt: histogram liczebności
+    :align: center
+
+    Historgam dla listy ``l`` uzyskany z wykorzystaniem pakietu ``TimeSeries``
+
+Oczywiście całą procedurę można powtórzyć dla liczb zmiennoprzecinkowych (rzeczywistych, wymiernych). W tym
+wypadku należałoby oczywiście policzyć ile posiadanych liczb wpada do zdefiniowanych "pudełek". Zobaczmy drugi
+przykład, gdzie obliczymy i narysujemy w Sage histogram dla dziesięciu tysięcy liczb z U(0,1). Powinniśmy dostać 
+
+.. figure:: img/01/u01.png
+  :alt: Wykres rozkładu jednorodnego na odcinku [0,1)
+  :align: center
+
+  Wykres rozkładu U(0,1)
+
+Przykład 2
+  Wygenerujemy 10000 liczb losowych a następnie dla nich obliczymy i narysujemy histogram.
+
+  .. code-block:: python
+  
+    N = 10000
+    u01 = [random() for i in xrange(N)]
+    fu01 = lambda x: 0 if x < 0 or x > 1 else 1
+    v = finance.TimeSeries([random() for i in xrange(N)])
+    plot1 = plot(fu01,(-1,2), thickness=1, color="black")
+    plot2 = v.plot_histogram(bins=10, color="orangered")
+    (plot1 + plot2).show(axes_labels=[r'$\xi$',r'$U(0,1)$'])
+
+  Ostatnia linia wyrysuje nam obie funkcje na jednym wykresie. Zachęcam czytelnika do poeksperymentowania z
+  powyższym kodem - można zmienić liczbę prób `N` i łatwo zobaczyć jak histogram zaczyna oddalać się od
+  teoretycznego rozkładu dla małych N i jak zbliża się dla dużych. Można też zobaczyć jak ilość przedziałów
+  (parametr ``bins``) wpływa na otrzymany histogram.
+
+.. figure:: img/01/u01_hist.png
+  :alt: Wykres rozkładu jednorodnego na odcinku [0,1)
+  :align: center
+
+  Wykres rozkładu U(0,1) + histogram miliona prób.
+
+
+Metoda inwersyjna
++++++++++++++++++
+
+Każdy rozkład prawdopodobieństwa może być jednoznacznie scharakteryzowany poprzez pewną funkcję
+rzeczywistą zwaną **dystrybuantą**.
+
+Dystrybuanta
+  Niech :math:`\mathbb{P}` będzie rozkładem prawdopodobieństwa. Funkcję 
+  :math:`\mathbb{F}: \mathbb{R} \to \mathbb{R}` daną wzorem
+
+  .. math::
+     
+     \mathbb{F}(\xi) = \mathbb{P}((-\infty, \xi))
+
+  nazywamy dystrybuantą rozkładu :math:`\mathbb{P}`.
+
+W metodzie inwersyjnej żądany rozkład o dystrybuancie :math:`\mathbb{F}` uzyskuje się poprzez przekształcenie 
+zmiennej losowej o rozkładzie U(0,1) za pomocą funkcji odwrotnej do :math:`\mathbb{F}`. 
+
+Twierdzenie
+  Załóżmy, że dystrybuanta :math:`\mathbb{F}` jest ściśle rosnąca. Jeśli zmienna losowa `u` ma
+  rozkład `U(0,1)` to :math:`\mathbb{F}^{-1}(u)` ma dystrybuantę :math:`\mathbb{F}`. 
+
+Dowód
+  TBA
+
+Algorytm wykorzystujący powyższe twierdzenie jest bardzo prosty i wygląda następująco:
+
+#. Generujemy liczbę :math:`u \in U(0.1)`.
+
+#. Przekształcamy `u` stosując 
+   
+   :math:`x = \mathbb{F}^{-1}(u)`
+   
+   Wynikowa liczba losowa :math:`x` posiada żądany rozkład :math:`\mathbb{P}`.
+
+Oczywiście skuteczność tej metody zależy bezpośrednio od tego czy możemy łatwo obliczyć :math:`\mathbb{F}^{-1}`.
+Jeżeli tak - jest to najprostsza znana metoda generowania liczb losowych z danym rozkładem. Do rozkładów,
+do których można zastosować tą metodę należą wszystkie rozkłady, których dystrybuanta znana jest jawnie *oraz*
+można ją łatwo odwrócić. O takich rozkładach powiemy sobie niżej. 
+
+Rozkład wykładniczy
+~~~~~~~~~~~~~~~~~~~
+
+Przejdźmy wreszcie do generowania liczb losowych z rozkładem innym niż `U(0,1)`. Na początek weźmy jeden
+z najbardziej powszechnych, czy popularnych rozkładów prawdopodobieństwa - **rozkład wykładniczy**. Gęstość
+takiego rozkładu dana jest wzorem
+
+.. math::
+
+  f(\xi) = \lambda e^{-\lambda \xi}
+
+Jak łatwo policzyć, dystrybuanta `F(x)` wynosi
+
+.. math::
+  F(x) = \int_{-\infty}^x f(\xi) d\xi = -e^{-\lambda \xi}\Big|_{-\infty}^x = -e^{-\lambda x} + 1,
+
+a jej odwrotność
+
+.. math::
+
+  F^{-1}(u) = -\frac{1}{\lambda} \ln (1-u).
+
+Spróbujmy wygenerować 5000 liczb o rozkładzie wykładniczym. Następnie obliczymy sobie histogram, unormujemy
+go i porównamy z teoretycznym rozkładem dla kilku wartości :math:`\lambda = 0.5, 1, 1.5`.
+
+.. code-block:: python
+
+  f(xi, a) = a * exp(-a * xi)
+  F(u, a) = -log(1-u)/a
+  N = 5000
+  kolor = ["red", "green", "blue"]
+  parlist = [1.5, 1, 0.5]
+  p = []
+  for par in parlist:
+    lista = [F(random(), par) for i in xrange(N)]
+    v = finance.TimeSeries(lista)
+    P = v.plot_histogram(bins=100, color=kolor[parlist.index(par)], alpha=0.5)
+    P.set_aspect_ratio("automatic")
+    p.append(P)
+    p.append(plot(f(xi,par), 0, max(lista), thickness=2, color=kolor[parlist.index(par)], 
+    legend_label=r'$\lambda = %.1f$'%par))
+  sum(p).show(xmin=0, xmax=5, figsize=5, axes_labels=[r'$\xi$',r'$\lambda e^{-\lambda \xi}$'], fontsize=12)
+
+Jak widać na rysunku liczby losowe przekształcone metodą inwersji w oparciu o odwrotność dystrybuanty, dość dobrze 
+odwzorowują rozkład wykładniczy. Lepszy wynik można oczywiście uzyskać zwiększając parametry ``N`` oraz ``bins``.
+
+.. figure:: img/01/r_exp_hist.png
+  :alt: Rozkład wykładniczy.
+  :align: center
+
+  Wykres gęstości rozkładu wykładniczego oraz histogram z 5000 prób liczb losowych dla trzech wartości parametru 
+  :math:`\lambda`.
+
+Alternatywnie można wykorzystać przekształcenie bazujące na spostrzeżeniu, że liczby :math:`1-u` oraz
+:math:`u (u \in U(0,1)` posiadają ten sam rozkład `U(0,1)`.
+
+Rozkład Cauchy'ego
+~~~~~~~~~~~~~~~~~~
+
+Rozkład ten dany jest wzorem
+
+.. math::
+
+  f(\xi) = \frac{\sigma}{\pi (\xi^2 + \sigma^2)}
+
+Odwrotność dystrybuanty powyższego rozkładu wynosi
+
+.. math::
+  F^{-1}(u) = \sigma \tan \Big[\pi \Big(u - \frac{1}{2} \Big)\Big].
+
+Stosując proste i bardzo naturalne przekształcenie oryginalnej zmiennej :math:`v = 1/2 - u`
+dostajemy nieco prostsze wyrażenie
+
+.. math::
+
+  F^{-1}(v) = \sigma \tan (\pi v).
+
+Stosując podobne metody jak w poprzednim rozdziale możemy sprawdzić, czy powyższe przekształcenie 
+generuje liczby z odpowiednim rozkładem.
+
+.. figure:: img/01/r_cauchy_hist.png
+  :alt: Rozkład Cauchyego.
+  :align: center
+
+  Wykres gęstości rozkładu Cauchy'ego oraz histogram z 5000 prób liczb losowych dla trzech wartości parametru 
+  :math:`\sigma = 0.5, 1, 2`.
+
+Rozkład logistyczny
+~~~~~~~~~~~~~~~~~~~
+
+Rozkład ten dany jest wzorem
+
+.. math::
+
+  f(\xi) = \frac{1}{2 + e^{\xi} + e^{-\xi}}
+
+Odwrotność dystrybuanty powyższego rozkładu wynosi
+
+.. math::
+  F^{-1}(u) = \ln\frac{u}{1-u}.
+
+Stosując podobne metody jak w poprzednim rozdziale możemy sprawdzić, czy powyższe przekształcenie 
+generuje liczby z odpowiednim rozkładem.
+
+.. figure:: img/01/r_logist_hist.png
+  :alt: Rozkład logistyczny.
+  :align: center
+
+  Wykres gęstości rozkładu logistycznego oraz histogram z 200000 prób liczb losowych.
+
+
+Zadanie 2.3.1
+  Wygeneruj 200000 liczb losowych z rozkładem Pareto. Narysuj ich unormowany histogram oraz funkcję gęstości. 
+  Porównaj obie funkcje zmieniając wszystkie parametry rozkładu.
+
+Zadanie 2.3.2.
+  Wygeneruj 1000 liczb losowych z rozkładem trójkątnym. Narysuj ich unormowany histogram oraz funkcję gęstości. 
+  Porównaj obie funkcje zmieniając wszystkie parametry rozkładu.
+
+Metoda odrzucania
++++++++++++++++++
+Polega ona na generowaniu liczb losowych o pewnym łatwo uzyskiwalnym rozkładzie, a następnie odrzuca się niektóre
+z nich. Pozostałe realizacje (liczby) posiadają żądany rozkład. Podstawą metody odrzucania jest twierdzenie
+
+Twierdzenie
+  Załóżmy, że zmienna :math:`X` ma gęstość :math:`f` oraz zmienna :math:`U` ma rozkład równomierny na odcinku 
+  :math:`[0,1)`. Wówczas, dla dowolnego :math:`c>0` para :math:`(X,Y)` gdzie :math:`Y \in c U f(X)` ma rozkład 
+  równomierny na zbiorze :math:`A = \{ (x,y): -\infty < x< \infty, 0 \le y \le c f(x) \}`. I na odwrót - jeżeli
+  :math:`(X,Y)` ma rozkład równomierny na zbiorze :math:`A`, to :math:`X` ma gęstość :math:`f`.
+
+Dowód
+  TBA
+
+Gęstość :math:`f` jest zadana. Zakładamy, że istnieje inna gęstość :math:`g` i dodatnia stała :math:`c` (w 
+rzeczywistości można albo obrać ją dość dowolnie, bądź lepiej obliczyć korzystając z takich bądź innych przesłanek)
+takie, że :math:`f(x) \le c g(x)` dla wszystkich (!) :math:`x \in \mathbb{R}`. Jak już założyliśmy na początku,
+rozkład :math:`g` winien być łatwo uzyskiwalny (np: metodą inwersji).
+
+Algorytm
+
+  A. Generujemy zmienną losową o rozkładzie równomiernym na zbiorze :math:`A` zawartym pomiędzy osią `OX` a 
+  krzywą :math:`y = xg(x)`. Można to zrobić tak jak w powyższym twierdzeniu
+    
+    #. generujemy zmienną losową :math:`X` o znanej (założonej przez nas, łatwej do uzyskania) gęstości :math:`g`
+
+    #. generujemy :math:`U \in U(0,1)`
+
+    #. :math:`Y = c U g(X)`
+
+    #. zwracamy parę :math:`(X,Y)`
+
+  B. Teraz sprawdzamy które pary leżą powyżej krzywej :math:`y = f(x)` i odrzucamy je. Pozostałe pary leżą pod krzywą 
+  (lub na krzywej) więc zgodnie z twierdzeniem mają rozkład równomierny na zbiorze A. Z tego można wywnioskować, 
+  że we wszystkich pozostałych nam parach :math:`X` ma żądaną gęstość :math:`f`.
+
+Aby metoda była wystarczająco efektywna musi posiadać trzy cechy
+
+1. Musi istnieć gęstość :math:`g` i stała :math:`c` takie, że :math:`f(x) \le c g(x)` dla wszystkich :math:`x \in \mathbb{R}`.
+
+2. Rozkład :math:`g` powinien być stosunkowo łatwy do uzyskania.
+
+3. Prawdopodobieństwo przyjęcia pary powinno być stosunkowo duże (w zasadzie im mniejsze c tym lepiej).
+
+Poniżej podamy kilka pzykładów ilustrujących tą metodę.
+
+Rozkład logistyczny
+~~~~~~~~~~~~~~~~~~~
+Spróbujemy wygenerować zmienne losowe o rozkładzie logistycznym bazując na zmiennych o rozkładzie Laplace'a. Najpierw, 
+metodą inwersji generować będziemy liczby losowe o rozkładzie znanym (Laplace'a właśnie), 
+
+.. figure:: img/01/r_laplace_hist.png
+  :alt: Rozkład Laplace-a.
+  :align: center
+
+  Wykres gęstości rozkładu Laplace-a oraz histogram z 10000 prób liczb losowych. 
+
+a następnie przetransformujemy je metodą odrzucania do liczb o końcowym rozkładzie logistycznym bazując na prostym
+przekształceniu
+
+.. math::
+   
+  f(\xi) = \frac{1}{2 + e^{\xi} + e^{-\xi}} = \frac{1}{2 + e^{|\xi|} + e^{-|\xi|}}
+
+  g(\xi) = \frac{1}{2} e^{-|\xi|}
+
+  \frac{g(\xi)}{f(\xi)} = \frac{1}{2} e^{-|\xi|} (1 + e^{-|\xi|})^2 \ge \frac{1}{2}
+
+Tak więc stawiając :math:`c = 2` możemy sprawdzać warunek :math:`c U g(\xi) / f(\xi) = U (1 + e^{-|\xi|})^2\le 1` co pozwoli nam odrzucać punkty
+leżące nad krzywą żądanego rozkładu :math:`f`.
+
+.. code-block:: python
+  
+  # ilosc realizacji
+  N = 10000
+  # liczby losowe o rozkladzie Laplace'a (metoda inwersji)
+  X = [-ln(random()) if random() < 0.5 else ln(random()) for i in xrange(N)]
+  # liczby losowe o rozkladzie logistycznym (metoda odrzucania)
+  T = [i for i in X if (1. + e^(-abs(i)))^2*random() <= 1]
+
+.. figure:: img/01/r_logistic_from_laplace_hist.png
+  :alt: Rozkład logistyczny.
+  :align: center
+
+  Wykres gęstości rozkładu logistycznego oraz histogram z 5078 prób liczb losowych (pozostała reszta z początkowych
+  10000 została odrzucona). 
+
+Zadanie 2.4.1
+  Zauważając, że :math:`f(x) \le 1 / (4 + x^2)` zbuduj generator liczb losowych o rozkładzie logistycznym. Znajdź poprawne `c`.
+
+Rozkład normalny
+++++++++++++++++
+Powyższe metody można z więkzym lub mniejszym sukcesem stosować do wygenerowania liczb losowych o rozkładzie normalnym (lub jak 
+ktoś woli Gaussa)
+
+.. math::
+   
+   f(\xi) = \frac{1}{\sqrt{2 \pi \sigma^2}} e^{-\frac{(x-\mu)^2}{2 \sigma^2}}
+
+który parametryzowany jest poprzez swoją średnią :math:`\mu` i wariancję :math:`\sigma^2`. Często spotyka się zapis :math:`N(\mu,\sigma)`
+oznaczający właśnie powyższy rozkład. My też będziemy posługiwać się takim zapisem, najczęściej oznaczając `N(0,1)` jako rozkład
+normalny o średniej zero i odchyleniu (choć w tym przypadku i wariancji) równym 1. `N(0,1)` nazywa się standardowym rozkładem 
+normalnym.
+
+Rozkład normalny jest jednym z kilku rozkładów, dla których najłatwiejsza metoda inwersji nie będzie działać wydajnie. Powodem tego jest
+brak analitycznej postaci funkcji charakterystycznej, która dana jest przykładowo poprzez funkcję błędu
+
+.. math::
+
+   F(z) = \frac{1}{2} \left(1+\operatorname{erf}\,\frac{z}{\sqrt{2}}\right)
+
+Zawsze można użyć metody odrzucania (pokażemy jej przykład poniżej) do wygenerowania liczb losowych z `N(0,1)`. Istnieje jednak
+wiele ciekawych metod rozwiniętych specjalnie dla tego rozkładu. Zaczniemy od mocno akademickiej metody korzystającej z centralnego 
+twierdzenia granicznego. 
+
+Centralne twierdzenie graniczne
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Zanim podamy sobie owo twierdzenie należy uświadomić sobie fakt, że praktycznie nie korzysta się z tej metody chcąc wygenerować
+liczby z rozkładem normalnym. Przykład ten jest jednak pouczający, a poza tym z będzie stanowił dobry materiał do odpytywania na 
+egzaminie... Za wikipedią podamy sobie ogólną postać CTG
+
+Twierdzenie Lindeberga-Lévy'ego (CTG)
+  Niech :math:`(X_{n,k})` będzie schematem serii, w którym :math:`EX_{n,k} = 0` dla :math:`k \leqslant n` i dla każdego `n` mamy 
+  :math:`\sum_{k=1}^n D^2 X_{n,k} = 1`. Jeśli spełniony jest warunek Lindeberga, tj. dla każdego :math:`\epsilon > 0` zachodzi 
+  
+  .. math::
+  
+     \lim_{n \to \infty} \sum_{k=1}^n EX_{n,k}^2 \mathbf 1_{\{|X_{n,k}|>\epsilon\}} = 0,
+     
+  wtedy :math:`\sum_{k=1}^n X_{n,k} \xrightarrow{D} N(0,1)`.
+  
+Pomimo, że jest ono dosyć skomplikowane (i na dodatek nie podajemy 
+`dowodu <http://pl.wikipedia.org/wiki/Centralne_twierdzenie_graniczne#Dow.C3.B3d>`_!), przesłanie jakie niesie wytłumaczyć można
+w dość prosty sposób:
+
+  Jeżeli :math:`\xi_1, \xi_2, \dots, \xi_n` jest ciągiem `n` niezależnych zmiennych losowych o tych samych rozkładach, to granicznym 
+  rozkładem sumy :math:`\xi_1 + \xi_2 + \dots + \xi_n` jest rozkład normalny. Podobne stwierdzenia możemy podać dla średnich.
+
+Uwaga 1
+  CTW nie oznacza, że dla dostatecznie dużej ilości realizacji otrzymamy rozkład normalny. Otrzymamy go tylko dla ich sumy.
+
+Uwaga 2
+  CTW jest prawdziwe tylko dla zmiennych o rozkładach o skończonej wariancji.
+
+Uwaga 3
+  CTW jest dobrze spełnione też w nieco ogólniejszym przypadku: dla słabo zależnych od siebie zmiennych oraz dla sumy zmiennych o 
+  różnych rozkładach (patrz uwaga 2 powyżej). Jeżeli tylko żadna zmienna losowa nie dominuje w próbie, to suma takich składników
+  będzie miała w przybliżeniu rozkład normalny.
+
+Czas na przykład. Weźmy najprostszy przypadek i popatrzmy na sumy liczb losowych z rozkładem `U(0,1)`.
+
+.. code-block:: python
+
+   # ilosc zmiennych do sumy
+   K = 3
+   # ilosc realizacji poszczegolnej zmiennej
+   M = 100
+   # sumy
+   X = [sum([random() for i in range(K)]) for j in xrange(M)]
+
+.. figure:: img/01/ctg_hists.png 
+  :alt: Rozkład normalny uzyskany z wykorzystaniem CTG.
+  :align: center
+
+  Wykresy gęstości rozkładu normalnego oraz histogramy z 1000 sum liczb losowych generowanych z `U(0,1)` dla K = 1, 3, 10. 
+  Łatwo zauważyć "dostrajanie się" uzyskiwanych histogramów do gęstości rozkładu normalnego w miarę wzrostu liczby składników 
+  `K` sumy.
+
+.. figure:: img/01/ctg_exp_hists.png 
+  :alt: Rozkład normalny uzyskany z wykorzystaniem CTG.
+  :align: center
+
+  Wykresy gęstości rozkładu normalnego oraz histogramy z 1000 sum liczb losowych dla K = 1, 3, 10, 50 tym razem pochodzących z 
+  rozkładu eksponencjalnego.
+
+Pomimo dużego podobieństwa histogramów uzyskanych metodą CTG do odpowiednich gęstości spory problem pozostawia generowanie
+liczb z ogonów (dla dużych wartości argumentów) rozkładu Gaussa. Pomimo, że prawdopodobieństwo uzyskania własnie takich 
+dużych liczb losowych z rozkładem normalnym jest nikłe to jest jednak niezerowe.
+
+Transformacja Boxa-Mullera
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Jest to jedna z najstarszych (bo z 1958 roku) i najcześciej stosowanych metod transformacji liczb losowych z `U(0,1)` do `N(0,1)`. W wyniku
+transformacji z dwóch niezależnych liczb losowych o rozkładzie jednorodnym uzyskiwane są dwie liczby o standardowym rozkładzie 
+Gaussa. Wykorzystuje się tu fakt, że dwuwymiarowy rozkład dwóch niezależnych zmiennych gaussowskich o zerowej średniej
+jest promieniście symetryczny jeżeli zmienne mają tą samą wariancję. Łatwo to zrozumieć wymnażając przez siebie dwa
+jednowymiarowe rozkłady
+
+.. math:: 
+   
+   e^{-x^2} e^{-y^2} = e^{-(x^2 + y^2)} = e^{-r^2}
+
+Innym sposobem na zrozumienie jak działa algorytm BM to wyobrażenie sobie dwóch uzyskanych zmiennych gaussowskich jako
+współrzędnych na powierzchni. Wtedy długość wektora to transformacja pierwszej liczby losowej :math:`U_1 \in U(0,1)`
+a jego faza to proste wymnożenie drugiej zmiennej :math:`U_2 \in U(0,1)` przez :math:`2 \pi`. 
+
+Algorytm
+
+  1. Wylosuj dwie liczby :math:`(U_1,U_2) \in U(0,1)`.
+
+  2. Zwróć :math:`(n_1, n_2) = (\sqrt{-2\ln(U_1)} \sin (2 \pi U_2), \sqrt{-2\ln(U_1)} \cos (2 \pi U_2)`
+
+Jako, że algorytm produkuje po jednym obiegu dwie liczby losowe, procedury realizujące go najczęściej zwracają pierwszą liczbę
+losową a drugą przytrzymują w pamięci by zwrócić ją w kolejnym wywołaniu procedury. Realizacja w Sage prostej wersji 
+(bez trzymania drugiej liczby w cache-u) nie powinna powodować większych trudności. Dla odmiany napiszmy sobie
+prostą funkcję ``box_muller`` zwracającą `k` liczb o standardowym rozkładzie normalnym.
+
+.. code-block:: python
+
+   def box_muller(k=1):
+     ret = []
+     for i in xrange(0,k,2):
+       a, b = sqrt(-ln(random()) * 2), 2 * pi.n() * random()
+       ret.append(a*sin(b))
+       ret.append(a*cos(b))
+     return ret[:-1] if k%2 else ret
+
+Zobaczmy, czy rzeczywiście histogram z `10000` liczb pokryje się z `N(0,1)`.
+
+.. figure:: img/01/box_muller.png 
+  :alt: Rozkład normalny uzyskany z wykorzystaniem transformacji Boxa-Mullera.
+  :align: center
+
+  Wykresy gęstości rozkładu normalnego oraz histogram z 10000 liczb losowych przetransformowanych
+  z `U(0,1)` do `N(0,1)` z wykorzystaniem transformacji Boxa-Mullera.
+
+Aby wyjasnić dlaczego taka oto transformacja ma prawo bytu można (za Boxem i Mullerem) skorzystać najpierw z transformacji 
+odwrtotnej zmiennych :math:`n_1, n_2`
+
+.. math::
+
+   U_1 = \exp \Big( -\frac{n^2_1 + n^2_2}{2} \Big )
+
+   U_2 = - \frac{1}{2} \arctan \frac{n_2}{n_1}
+
+I następnie policzyć rozkład dwuwymiarowy zmiennych :math:`n_1, n_2` korzystając z Jakobianu przekształcenia
+
+.. math::
+
+   f(n_1, n_2) = U(0,1) * |J|,
+
+   J = \Big| \frac{\partial (U_1, U_2)}{\partial(n_1, n_2)} \Big|,
+
+z czago łatwo policzyć rozkład dwuwymiarowy 
+
+.. math:: 
+
+   f(n_1,n_2) = \frac{1}{2 \pi} \exp \Big( {-\frac{(n_1^2 + n_2^2)}{2}}\Big) = 
+   \frac{1}{\sqrt{2 \pi}} \exp \Big( {-\frac{n_1^2}{2}}\Big)\frac{1}{\sqrt{2 \pi}} \exp \Big( {-\frac{n_1^2}{2}}\Big) =
+   f(n_1)f(n_2),
+
+i wywnioskować niezalezność zmiennych :math:`n_1, n_2`.
+
+W miarę rozrastania się podręcznika w tym miejscu powinny pojawić się inne, znacznie ciekawsze metody uzyskiwania zmiennych
+(czy może raczej liczb) losowych, na przykład: przybliżanie kawałkami liniowe z użyciem rozkładów trójkątnych, metoda
+Mony-Pythona, szereg metod odrzucania (biegunów, Marsaglia-Bray, GRAND) czy metoda rekursywna Wallece-a. Innym zagadnieniem 
+jest problem wytwarzania liczb losowych dla gaussowskich ogonów. Na duże (w sensie modulo, czyli gdy nie patrzymy na ich znak) 
+liczby gaussowskie mające bardzo małe prawdopodobieństwo wystąpienia mówimy, że leżą w ogonach rozkładu Gaussa. Do takich
+przypadków również powstały interesujace algorytmy. Pominiemy natomiast testy i porównywanie generatorów, jako że nie o tym
+jest ten wykład (choć zagadnienie jest na pewno ciekawe).
+
+Zadania
+-------
+
+Zadanie 2.Z.1
+  Wykorzystaj metodę Boxa-Mullera do sprawdzenia jaki procent liczb gaussowskich o rozkładzie :math:`N(\mu, \sigma)` wypada poza 
+  :math:`\pm \sigma, \pm 3 \sigma, \pm 6 \sigma`.
+
+Zadanie 2.Z.2
+  TBA
+
+----------------------------
+
+.. [#] Generator liczb pseudolosowych można napisać nawet dla tak egzotycznych języków jak 
+   `Brainf*ck <http://esolangs.org/wiki/brainfuck_algorithms#x_.3D_pseudo-random_number>`_.
+
+.. [#] Od tej chwili będziemy zawsze pisać *liczba losowa* a mieć na myśli *liczbę pseudolosową*, 
+   chyba, że napisane zostanie explicite, że mówimy o rzeczywistych liczbach losowych.

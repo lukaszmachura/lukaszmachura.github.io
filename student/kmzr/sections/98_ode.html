@@ -1,0 +1,361 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Rozwiązywanie numeryczne równań różniczowych zwyczajnych &mdash; Komputerowe modelowanie zjawisk rynkowych 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Komputerowe modelowanie zjawisk rynkowych 0.1 documentation" href="../index.html" />
+    <link rel="next" title="Rozwiązania zadań" href="99_rozwiazania.html" />
+    <link rel="prev" title="ARMA" href="03_arma.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Indeks ogólny"
+             accesskey="I">indeks</a></li>
+        <li class="right" >
+          <a href="99_rozwiazania.html" title="Rozwiązania zadań"
+             accesskey="N">dalej</a> |</li>
+        <li class="right" >
+          <a href="03_arma.html" title="ARMA"
+             accesskey="P">wstecz</a> |</li>
+        <li><a href="../index.html">KMZR</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Spis treści</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Rozwiązywanie numeryczne równań różniczowych zwyczajnych</a><ul>
+<li><a class="reference internal" href="#metoda-eulera">Metoda Eulera</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Poprzedni temat</h4>
+  <p class="topless"><a href="03_arma.html"
+                        title="poprzedni rozdział">ARMA</a></p>
+  <h4>Następny temat</h4>
+  <p class="topless"><a href="99_rozwiazania.html"
+                        title="następny rozdział">Rozwiązania zadań</a></p>
+  <h3>Ta strona</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/sections/98_ode.txt"
+           rel="nofollow">Pokaż źródło</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Szybkie wyszukiwanie</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Szukaj" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Wprowadź szukany termin lub nazwę modułu, klasy lub funkcji.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="rozwiazywanie-numeryczne-rownan-rozniczowych-zwyczajnych">
+<h1>Rozwiązywanie numeryczne równań różniczowych zwyczajnych<a class="headerlink" href="#rozwiazywanie-numeryczne-rownan-rozniczowych-zwyczajnych" title="Stały odnośnik do tego nagłówka">¶</a></h1>
+<div class="section" id="metoda-eulera">
+<h2>Metoda Eulera<a class="headerlink" href="#metoda-eulera" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<p>Jest to bodaj najprostszy sposób na numeryczne rozwiązywanie równań różniczkowych
+zwyczajnych. Technicznie to metoda pierwszego rzędu. Bazuje na prostej interpretacji
+definicji pochodnej. Rozpatrujemy równanie postaci</p>
+<div class="math">
+\[\frac{dy}{ds} = y' = f(y,s),\]</div>
+<p>z zadanymi warunkami początkowymi <span class="math">\((sx(0), y(0)) = (x_0, y_0)\)</span>. Stosując przekształcenie</p>
+<div class="math">
+\[\frac{dy}{ds} = \lim_{\Delta s \to 0}\frac{\Delta y}{\Delta s}\]</div>
+<p>Na chwilę zapomnijmy o tej granicy. Mamy</p>
+<div class="math">
+\[\frac{\Delta y}{\Delta s} = \frac{y(s+\Delta s) - y(s)}{\Delta s}\]</div>
+<p>stawiając krok &#8220;czasowy&#8221; <span class="math">\(\Delta x = h\)</span> (jak to zwyczajowo w symulacjach komputerowych)
+dostajemy</p>
+<div class="math">
+\[\frac{y(s + h) - y(s)}{h} \simeq f(y,s),\]\[y(s+h) \simeq y(s) + f(y,s) h.\]</div>
+<p>Oczywiście pełna równość zachodzi tylko w granicy <span class="math">\(h \to 0\)</span>. Na potrzeby numeryczne jednak
+nie musimy się tym przejmować. Należy mieć tylko świadomość, że zmniejszanie kroku czasowego
+zbliża nas do wyniku dokładnego (zazwyczaj). Jako, że w iteracjach &#8220;czasowych&#8221; wykorzystujemy
+stały krok <span class="math">\(h\)</span>, więc w danej, powiedzmy <cite>i</cite>-tej iteracji czas rzeczywisty zastąpiony zostanie
+poprzez <span class="math">\(s_i = i \cdot h\)</span>, możemy równie dobrze wprowadzić indeksowanie nie po czasie <cite>s</cite> ale
+po zmiennej iteracyjnej <cite>i</cite></p>
+<div class="math">
+\[y (s = ih) = y(s_i) = y_i, \quad s_i = i h,\]\[y (i h + h) = y(h(i+1)) = y(ih) + f(y(ih), ih) h,\]\[y_{i+1} = y_i + f(y_i,s_i) h.\]</div>
+<p>Dostając tzw. schemat Eulera. Innymi metodami wyprowadzenia tego prostego schematu będzie użycie
+rozwinięcia Tylora lub wycałkowanie równania różniczowego od <span class="math">\(s_0\)</span> do :math`s_0 + h`
+za pomocą metody prostokątów (uzywając tylko jednego prostokąta na całym przedziale całkowania).</p>
+<dl class="docutils">
+<dt>Zadanie D1.1</dt>
+<dd>Uzyskaj schemat Eulera z rozwinięcia Tylora.</dd>
+<dt>Zadanie D1.2</dt>
+<dd>Uzyskaj schemat Eulera całkując równanie różniczkowe.</dd>
+</dl>
+<p>Dokładność metody Eulera mocno zależy od wyboru kroku całkowania <cite>h</cite>. Musimy też na początku zadać
+warunki startowe (początkowe) iteracji, zupełnie jak podczas rozwiązywania równań metodami analitycznymi.
+Dla przykładu obliczmy numerycznie ruch przetłumionego sprężyny o współczynniku sprężystości <cite>k</cite>.</p>
+<div class="math">
+\[\dot{x}(t) = -k x(t).\]</div>
+<p>Rozwiązaniem jest zanik eksponencjalny <span class="math">\(x(t) = x_0 \exp (-k t)\)</span>. Wybierzemy sobie warunek początkowy
+<span class="math">\(x_0 = 1\)</span> i współczynnik sprężystości <span class="math">\(k=0.1\)</span>. Policzmy <cite>N</cite> iteracji i narysujmy wykres. Na
+początku napiszemy dyskretną wersję równania ruchu</p>
+<div class="math">
+\[x_{i+1} = x_{i} - k x_i h = x_i (1 - kh).\]</div>
+<p>Teraz kod Sage</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># liczba iteracji rownania</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">300</span>
+<span class="c"># czas poczatkowy</span>
+<span class="n">t</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c"># skok czasowy</span>
+<span class="n">h</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="c"># parametr rownania (sprezystosc)</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="c"># wartosc poczatkowa x(t=0)</span>
+<span class="n">x_0</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="c">#inicializacja listy poprzez wartosc poczatkowa</span>
+<span class="n">lista_x</span> <span class="o">=</span> <span class="p">[</span><span class="n">x_0</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+  <span class="n">lista_x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lista_x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">k</span><span class="o">*</span><span class="n">h</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>wynik (rozwiąznanie numeryczne równania) trzymany jest w liście <tt class="docutils literal"><span class="pre">lista_x</span></tt>. Wyrysujmy ją standardowo, razem
+z wynikiem analitycznym.</p>
+<div class="figure align-center">
+<img alt="schemat Eulera dla przetłumionej sprężyny" src="../_images/euler001.png" />
+<p class="caption">Rozwiązanie analityczne i numeryczne równania <span class="math">\(\dot{x} = -kx\)</span>.</p>
+</div>
+<p>Pomimo użycia prostej metody (pierwszego rzędu), wykresy wyglądają identycznie. No, ale czy na pewno jest tak pięknie?
+Poprawność metody możemy łatwo zbadać obliczając błędy względny (<span class="math">\(E_w\)</span>) i bezwzględny (<span class="math">\(E_b\)</span>).</p>
+<div class="math">
+\[E_b = \bar{y} - y,\]\[E_w = \frac{\bar{y} - y}{\bar{y}} = \frac{E_b}{\bar{y}}.\]</div>
+<p>gdzie <span class="math">\(y\)</span> to wielkość obliczona algorytmem a <span class="math">\(\bar{y}\)</span> to dokładna wielkość analityczna. Dla jasności -
+nie interesują nas w tym przypadku znaki błędów a jedynie ich wartość bezwzględna (tu proszę zwrócić
+uwage na nomenklaturę, żeby nie pomylić wartości bezwzględnej z błędem bezwzględnym). Dlatego najczęściej
+oblicza się nie <span class="math">\(E_w\)</span> a <span class="math">\(|E_w|\)</span>. Wymaga to drobnej korekty powyższego kodu</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">N</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">x_0</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span>
+<span class="n">g</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">=</span> <span class="n">x_0</span><span class="o">*</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">k</span><span class="o">*</span><span class="n">s</span><span class="p">)</span>
+<span class="n">lista_x</span> <span class="o">=</span> <span class="p">[</span><span class="n">x_0</span><span class="p">]</span>
+<span class="n">Eb</span> <span class="o">=</span> <span class="p">[</span><span class="n">g</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">x_0</span><span class="p">]</span>
+<span class="n">Ew</span> <span class="o">=</span> <span class="p">[</span><span class="n">Ew</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">g</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">N</span><span class="p">):</span>
+  <span class="n">lista_x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lista_x</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">k</span><span class="o">*</span><span class="n">h</span><span class="p">))</span>
+  <span class="n">Eb</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">g</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="n">h</span><span class="p">)</span> <span class="o">-</span> <span class="n">lista_x</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+  <span class="n">Ew</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Eb</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="n">g</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="n">h</span><span class="p">))</span>
+<span class="n">list_plot</span><span class="p">(</span><span class="nb">zip</span><span class="p">([</span><span class="n">i</span><span class="o">*</span><span class="n">h</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">)],</span><span class="n">Eb</span><span class="p">))</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">list_plot</span><span class="p">(</span><span class="nb">zip</span><span class="p">([</span><span class="n">i</span><span class="o">*</span><span class="n">h</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">)],</span><span class="n">Ew</span><span class="p">))</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Spójrzmy. Na pierwszym wykresie odłożony mamy błąd bezwzględny. Widzimy, że dla krótkich czasów odbiega on od wartości
+analitycznej by dla większych czasów zmaleć do zera. Mogą być tego 2 powody: (i) różnica pomiędzy obiema wartościami
+maleje zo zera lub (ii) obie wartości maleją do zera, więc ich różnica też. Jako, że funkcja jest eksponencjalna,
+dużo bardziej prawdopodobny jest ten drugi scenariusz. Aby zobaczyć, czy błąd rośnie z ilością iteracji
+(w czasie) wykreślimy błąd względny. Mówi on nam o stosunku błedu bezwzględnego do wartości analitycznej (rysunek
+po prawej). Tu jak widać rośnie on wraz z czasem, z czego możemy wywnioskować, że wraz z ilością iteracji
+coraz mniej dokładnie obliczamy wartość <cite>y</cite>.</p>
+<div class="figure align-center">
+<img alt="Schemat Eulera dla przetłumionej sprężyny - błędy." src="../_images/euler_err.png" />
+<p class="caption">Błąd bezwzględny (po lewej) i błąd względny (po prawej).</p>
+</div>
+<p>Najprosztszą metodą poprawienia jakości rozwiązań jest zmniejszenie kroku całkowania. Zależności pozostaną podobne,
+zmniejszy się jednak wartośc błędów w danej chwli czasowej.</p>
+<div class="figure align-center">
+<img alt="Schemat Eulera dla przetłumionej sprężyny - błędy." src="../_images/euler_ebw_h.png" />
+<p class="caption">Błąd bezwzględny (po lewej) i błąd względny (po prawej) po czasie <span class="math">\(t=10\)</span> dla różnych kroków czasowych
+<span class="math">\(h = 1, 0.1, 0.01, 0.001, 0.0001\)</span>.</p>
+</div>
+<p>W tabeli zawarto wartości błędów bezwzględnego i względnego dla różnych wielkości kroku czasowego
+symulacji, po osiągnięciu czasu końcowego <span class="math">\(T_E = 10\)</span>. Widać, że pomimo, że za każdym zmniejszeniem
+kroku zwiększała się ilość kroków czasowych, dokładność obliczeń rosła - malał zarówno błąd bezwzględny
+jak i względny.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="26%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><cite>h</cite></td>
+<td><cite>N</cite></td>
+<td><span class="math">\(E_b\)</span></td>
+<td><span class="math">\(E_w\)</span></td>
+</tr>
+<tr class="row-even"><td>1</td>
+<td>100</td>
+<td><span class="math">\(3.72 10^{-44}\)</span></td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>0.1</td>
+<td>1 000</td>
+<td><span class="math">\(3.70 10^{-44}\)</span></td>
+<td>0.995</td>
+</tr>
+<tr class="row-even"><td>0.01</td>
+<td>10 000</td>
+<td><span class="math">\(1.47 10^{-44}\)</span></td>
+<td>0.396</td>
+</tr>
+<tr class="row-odd"><td>0.001</td>
+<td>100 000</td>
+<td><span class="math">\(1.82 10^{-45}\)</span></td>
+<td>0.0488</td>
+</tr>
+<tr class="row-even"><td>0.0001</td>
+<td>1 000 000</td>
+<td><span class="math">\(1.86 10^{-46}\)</span></td>
+<td>0.0499</td>
+</tr>
+</tbody>
+</table>
+<p>Przejdźmy teraz do rozwiązania równania różniczkowego wyższego stopnia. Znów posłużymy się przykładem
+oscylatora harmonicznego. Tym razem rozwiążemy równanie Newtona dla punktowej cząstki o masie <cite>m</cite>
+w potencjale <span class="math">\(U(x) = -k x^2 / 2\)</span>. Pominiemy siły tarcia. Również w spokoju zostawimy wymuszenie.</p>
+<div class="math">
+\[m \ddot{x}(t) = -kx(t).\]</div>
+<p>Równanie to posiada znane
+<a class="reference external" href="http://ribes.if.uj.edu.pl/homepage/weblog/Oscylator_harmoniczny_rozwiazanie/Oscylator_harmoniczny_rozwiazanie.pdf">analityczne rozwiązanie</a>.
+Oznaczając <span class="math">\(\omega_0^2 = k/m\)</span> dostajemy</p>
+<div class="math">
+\[x(t) = A \sin(\omega_0 t) + B \cos(\omega_0 t).\]</div>
+<p>Stałe <cite>A, B</cite> (amplitudy) zależne są od wyboru warunków początkowych. Spróbujmy numerycznie
+rozwiązać równanie ruchu tak, aby pokazać zgodność z rozwiązaniem. Aby napisać schemat Eulera dla równania
+drugiego stopnia najpierw trzeba przepisać równanie do układu równań na <span class="math">\(x\)</span> i <span class="math">\(v = \dot{x}\)</span>.</p>
+<div class="math">
+\[\dot{x}(t) = v(t),\]\[\dot{v}(t) = -\frac{k}{m} x(t) = - \omega_0^2 x(t).\]</div>
+<p>Teraz wystarczy zdyskretyzować te równania, tak samo jak robiliśmy to z równaniem pierwszego rzędu.</p>
+<div class="math">
+\[x_{i+1} = x_i + v_i h,\]\[v_{i+1} = v_i - \omega^2_0 x_i h.\]</div>
+<p>Po ustaleniu warunków początkowych <span class="math">\(x(0) = x_0\)</span> oraz <span class="math">\(v(0) = v_0\)</span> możemy rozpocząć normalną
+procedurę symulacji - wybieramy krok czasowy <cite>h</cite>, ustalamy parametry równania i do dzieła.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">h</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="c"># skok</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">100</span> <span class="c"># liczba krokow</span>
+
+<span class="n">x0</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">v0</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">omega0</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">lista_x</span> <span class="o">=</span> <span class="p">[</span><span class="n">x0</span><span class="p">]</span>
+<span class="n">lista_v</span> <span class="o">=</span> <span class="p">[</span><span class="n">v0</span><span class="p">]</span>
+<span class="n">lista_t</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+  <span class="n">lista_x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lista_x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">lista_v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">h</span><span class="p">)</span>
+  <span class="n">lista_v</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lista_v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">omega0</span><span class="o">^</span><span class="mi">2</span> <span class="o">*</span> <span class="n">lista_x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">h</span><span class="p">)</span>
+  <span class="n">lista_t</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lista_t</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">h</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Wykorzystamy też Sage do obliczenia rozwiązania analitycznego dla naszego zagadnienia.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">var</span><span class="p">(</span><span class="s">&#39;t x omega x_0 v_0&#39;</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+<span class="n">assume</span><span class="p">(</span><span class="n">omega</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">eq</span> <span class="o">=</span> <span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">omega</span><span class="o">^</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="n">solx</span> <span class="o">=</span> <span class="n">desolve</span><span class="p">(</span><span class="n">eq</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">ivar</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">ics</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">x_0</span><span class="p">,</span> <span class="n">v_0</span><span class="p">])</span>
+<span class="n">solv</span> <span class="o">=</span> <span class="n">diff</span><span class="p">(</span><span class="n">solx</span><span class="p">,</span><span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Teraz możemy zobaczyć jak dokładna jest metoda Eulera w przypadku równań wyższych rzędów. Poniżej
+znajdziecie wykres rozwiązań dla <cite>h=0.01</cite> i 10000 kroków.</p>
+<div class="figure align-center">
+<img alt="Schemat Eulera dla oscylatora harmonicznego." src="../_images/euler_osc.png" />
+<p class="caption">Porównanie numerycznego (<span class="math">\(x(t)\)</span> linia niebieska, <span class="math">\(v(t)\)</span> linia czerwona)
+i analitycznego (<span class="math">\(x(t)\)</span> linia czarna, <span class="math">\(v(t)\)</span> linia zielona) rozwiązania zagadnienia
+oscylatora harmonicznego. Jak widać odchylenia od rozwiązań dokładnych zaczynją być
+znaczące już dla kilku kroków symulacji.
+Błąd bezwzględny widnieje na prawym górny panelu; błąd względny wykreślony jest na prawym dolnym
+panelu w skali logarytmicznej dla lepszej czytelności.
+Parametry użyte dla powyższej symulacji: <span class="math">\(x_0=1, v_0=0, \omega_0=1, h=0.01, N=10000\)</span>.</p>
+</div>
+<p>Inną, aczkolwiek trudniejszą metodą będzie użycie algorytmów wyższego rzędu takich jak schemat Rungego-Kutty
+(2-giego, 4-tego i wyższych rzędów). Dociekliwy student może zajrzeć
+<a class="reference external" href="http://en.wikipedia.org/wiki/List_of_Runge%E2%80%93Kutta_methods">tutaj</a>.</p>
+<dl class="docutils">
+<dt>Zadanie D1.3</dt>
+<dd>Przeprowadź podobną symulację dla innych wartości <cite>h</cite>. Wykreśl zależność błędów względnego i bezwzględnego
+w funkcji wartości <cite>h</cite>. Błędy badaj po rzeczywistym czasie symulacji <span class="math">\(T_E = 100\)</span>.</dd>
+<dt>Zadanie D1.4</dt>
+<dd><p class="first">Rozwiązać numerycznie równania</p>
+<ol class="upperalpha simple">
+<li><span class="math">\(\dot{x} (t) = -k x^3\)</span></li>
+<li><span class="math">\(\dot{x} (t) = F\)</span></li>
+<li><span class="math">\(m \ddot{x} (t) = m g\)</span></li>
+<li><span class="math">\(\ddot{r} (t) = 4 \epsilon \left[ \left(\frac{\sigma}{r} \right)^{12}-&nbsp; \left( \frac{\sigma}{r}\right)^6 \right]$, $r&gt;0\)</span></li>
+<li><span class="math">\(m \ddot{x} (t) = -\gamma \dot{x}(t) - k x(t)\)</span></li>
+<li><span class="math">\(m \ddot{x} (t) =  -k x(t) -\gamma \dot{x}(t) + a \cos(\omega t)\)</span></li>
+</ol>
+<p>Dla każdego przypadku (A-F) należy</p>
+<ol class="arabic simple">
+<li>narysować <cite>x</cite> (dla D-F również <cite>v</cite>) w funkcji <cite>t</cite> (opisać osie),</li>
+<li>odpowiedzieć na pytanie: z jakim ruchem mamy do czynienia [dla jakich parametrow równania ruch
+jest cykliczny (periodyczny), dla jakich rozwiązanie jest stałe (niezmienne w czasie)...],</li>
+<li>znaleźć błąd względny i bezwzględny, wykreślić w funkcji czasu.</li>
+</ol>
+<p>Pytania:</p>
+<ol class="last arabic simple">
+<li>Czym różni się przypadek E od F?</li>
+<li>Co opisuje potencjał w D? Jakie ma zastosowanie w fizyce?</li>
+</ol>
+</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Indeks ogólny"
+             >indeks</a></li>
+        <li class="right" >
+          <a href="99_rozwiazania.html" title="Rozwiązania zadań"
+             >dalej</a> |</li>
+        <li class="right" >
+          <a href="03_arma.html" title="ARMA"
+             >wstecz</a> |</li>
+        <li><a href="../index.html">KMZR</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Łukasz Machura.
+      Utworzone przy pomocy <a href="http://sphinx.pocoo.org/">Sphinx</a>'a 1.1.3.
+    </div>
+  </body>
+</html>

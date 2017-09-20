@@ -1,0 +1,95 @@
+Stochastyczne równania różniczkowe
+==================================
+
+Po procesach ARMA, będących równaniami różnicowymi, których generowanie jest dość proste, nadszedł
+czas aby poznać metody rozwiązywania numerycznego stochastycznych równań różniczkowych (SDE, bo
+z angielskiego Stochastic Differential Equation). Metody
+rozwiązywania równań deterministycznych podane są `pod koniec tego skryptu <./98_ode.html>`_.
+Bazując na wiedzy zawartej w tym właśnie dodatku opiszemy sobie najprostsze metody rozwiązywania
+SDE. Rozpatrywać będziemys równania typu 
+
+.. math::
+ 
+   \frac{d x(t)}{dt} = F(x(t),t) + G(x(t),t) \Gamma (t),
+
+gdzie :math:`F` i :math:`G` to dowolne funkcje, a :math:`\Gamma(t)` jest dowolnym procesem
+stochastycznym (losowym), choć najcześciej pojawiającym się będzie szum biały. Powyższe
+równanie nie jest do końca precyzyjne. Musimy je jeszcze zinterpretować, gdyż mamy tu do
+czynienia z `dylematem Ito - Stratonowicza
+<http://el.us.edu.pl/ekonofizyka/index.php/PIZL:Stochastyczne_r%C3%B3wnania_r%C3%B3%C5%BCniczkowe#Dylemat_Stratonowicza-Ito>`_.
+Jeżeli procesem losowy będzie biały szum gaussowski, możemy użyć notacji Ito i precyzyjnie zapisać
+
+.. math::
+
+   d x(t) = F(x(t),t)dt + G(x(t),t) dW (t).
+   
+Nie zmienia to ogólności poniższych rozważań. Jeżeli dostalibyśmy równanie Stratonowicza, wystarczy
+przetransformować je do procesu Ito i postępować jak poniżej.
+
+Rozwiązywanie takich równań umożliwi nam generowanie realizacji danego procesu losowego, a co za tym
+idzie generowanie zdarzeń rynkowych opisywanych takimi modelami.
+
+Schemat Eulera-Maruyamy
+-----------------------
+Równania stochastyczne można podzielić na dwie części: część deterministyczną i losową. Pierwszą będziemy 
+rozwiązywać metodami opisanymi `na końcu skryptu <./98_ode.html>`_. Metodę rozwiazywania części drugiej 
+podamy teraz. Zaczniemy od najprostszego modelu - schematu Eulera - Maruyamy. 
+
+Ustalamy krok czasowy `h` jednocześnie dystretyzując oś czasu. Zmieniać się on będzie teraz 
+:math:`t_1, t_2, t_3, \dots, t_N`. Różnica pomiędzy kolejnymi czasami da nam właśnie krok czasowy
+:math:`h = t_{i+1} - t_i`. 
+Przepiszemy sobie równanie ruchu 
+
+.. math:: 
+
+   x(t_i + h) = x(t_i) + \int_{t_i}^{t_i + h} F (x(t),t) dt + {\color{red} \int_{t_i}^{t_i + h} G(x(t),t) \Gamma(t) dt}.
+
+Uwaga
+  Dalsza część tekstu wymaga przeczytania ze zrozumieniem jakiejkolwiek pozycji dotyczącej procesu Wienera. 
+  Osobiście polecam 
+  `skrypt prof. Łuczki <http://el.us.edu.pl/ekonofizyka/index.php/PIZL:Proces_Wienera_i_proces_dyfuzji>`_.
+
+Aby scałkować proces stochastyczny użyjemy formuły na przyrost procesu Wienera (proszę pamiętać, że 
+zajmujemy się białym szumem gaussowskim). 
+
+.. math::
+
+   \int_{t_i}^{t_i + h} \Gamma(t) dt =  
+   \int_{t_i}^{t_i + h} dW(t) =  W(t_i + h) - W(t_i)
+   
+Z definicji procesu Wienera wiemy, że jest on procesem Gaussa o zerowej średniej i wariancji liniowej w czasie
+:math:`\langle [W(t_i + h) - W(t_i)]^2 \rangle = 2 D h`, co daje nam w sensie średnio-kwadratowym
+:math:`\Delta W \propto \sqrt{\langle [\Delta W (t)]^2 \rangle} = \sqrt{h}`. Na nieszczęście (ale tylko
+dla ortodoksyjnych matematyków) proces taki nie jest różniczkowalny, nawet w sensie średnio-kwadratowym. Nie
+przeszkadza to posługiwać się pochodną procesu Wienera i, co więcej, wnioskować polegając na takim zapisie!
+Jako, że z reguły posiadamy generator liczb losowych `N(0,1)` to scałkowanie procesu Wienera prowadzi do 
+
+.. math::
+
+   \int_{t_i}^{t_i + h} \Gamma(t) dt = \sqrt{h} N(0,1).
+
+W 'magiczny' sposób zniknęła nam funkcja `G`. Podobnie jak w klasycznym schemacie Eulera zakładamy, że funkcja
+`G` jest stała (lub bardzo wolno zmienna) na kroku `h`, więc można wyciągnąc ją przed znak całki. Odstatecznie
+wykorzystując tożsamość :math:`x(t_i) \equiv x_i` dostajemy wzór na numeryczny schemat EM
+
+.. math::
+
+   x_{i+1} = x_i + F (x_i,t_i) h + \sqrt{h} G(x_i,t_i) N(0,1).
+
+Ten zapis pokazuje też ważną cechę przy obliczaniu aproksymacji rozwiązań stochastycznych - najniższy rząd w 
+`h` jest nie :math:`O(h)` ale :math:`O(\sqrt{h})`. Ponadto z takiego sformułowania widać też, że zmiany procesu 
+Wienera w stosunku do przyrostów czasu są rozbieżne w granicy :math:`h \to 0`.
+
+Schemat Millsteina
+------------------
+Dodaje on poprawkę do poprzedniego rozwiązania, powodując, że schemat staje się schematem pierwszego rzędu 
+w sensie silnym. Dany jest on wzorem iteracyjnym
+
+.. math::
+   
+   x_{i+1} = x_i + F (x_i,t_i) h - 
+   \frac{h}{2} G(x_i,t_i)G'(x_i,t_i) +
+   \sqrt{h} G(x_i,t_i) N(0,1).
+
+W tym wzorze :math:`G'` oznacza pochodną po argumencie :math:`x`. Obie metody (Millsteina i Eulera-Maruyamy) 
+redukują się do tego samego schematu gdy część losowa nie jest zależna od zmiennej `x`.

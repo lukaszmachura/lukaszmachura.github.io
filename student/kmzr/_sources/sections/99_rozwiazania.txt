@@ -1,0 +1,26 @@
+Rozwiązania zadań
+=================
+
+Rozdział 1
+----------
+
+TBA
+
+Rozdział 2
+----------
+
+Zadanie 2.4.1
+  Należy rozwinąć w szereg funkcję :math:`e^{\alpha x}` i zauważyć, że
+
+  .. math::
+     
+     e^x + e^{-x} = 1 + x + \frac{x^2}{2} + \dots + 1 - x + \frac{x^2}{2} + \dots = 2 + x^2 + \dots = 2 + \sum_{i=1}^{\infty}x^{2i} \ge 2
+
+     f(x) = \frac{1}{2 + e^x + e^{-x}} = \frac{1}{4 + \sum_{i=1}^{\infty}x^{2i}} \le \frac{1}{4 + x^2}
+
+  Co daje nam ograniczenie poprzez rozkład Cauchy'ego dla :math:`\sigma = 2`. Łatwo policzyć stosunek obu rozkładów i 
+  znaleźć :math:`c=\pi/2`. Dalej należy postępować jak w przykładzie z wykładu.
+
+
+Rozdział 3
+----------

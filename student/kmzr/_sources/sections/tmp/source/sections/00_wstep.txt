@@ -1,0 +1,33 @@
+Wstęp
+=====
+
+**Wymagania teoretyczne**
+
+* M. Łukaszewski, J. Sładkowski, `Wybrane zagadnienia analizy rynków finansowych <http://el.us.edu.pl/ekonofizyka/index.php/Instrumenty_Rynku>`_
+* M. Łukaszewski, J. Sładkowski, `Wprowadzenie do funkcjonowania rynków finansowych <http://el.us.edu.pl/ekonofizyka/index.php/Rynki_Finansowe>`_
+* J. Łuczka, `Procesy i zjawiska losowe <http://el.us.edu.pl/ekonofizyka/index.php/Procesy_i_Zjawiska_Losowe>`_
+
+**Wymagania techniczne**
+
+* podstawy programowania 
+  (`Sage/Python <https://sage2.icse.us.edu.pl/pub/?typ=pub&search=ITechninf>`_ 
+  lub `Matlab/Octave <http://el.us.edu.pl/ekonofizyka/index.php/Programowanie>`_ 
+  lub C/C++ lub cokolwiek innego...)
+
+**Uwagi**
+
+* Jako, że zajmujemy sie metodami komputerowymi, warto ten podręcznik czytać przy komputerze, 
+  jednocześnie powtarzając prezentowane obliczenia samodzielnie. Większość zaprezentowanego 
+  kodu dostępna jest w projekcie kmzj, zalecam jednak wpisywanie większości algorytmów samodzielnie.
+  Nauka poprzez palce jest bardzo ważna, pozwala nabyć niezbędnych umiejętności pracy przy (na?)
+  komputerze. Zwykłe "copy-paste" nie nauczy nikogo wiele. Dodatkowo zachęcam do dowolnych
+  zmian w kodach prezentowanych w tym kursie - do optymalizacji, skracania, przyspieszania itp. 
+  Nie zawsze pisałem ten kod z myślą o zastosowaniach końcowych. W większości przypaków ma on
+  być szkoleniowy i intuicyjny (jeżeli dla kogoś Python jest intuicyjny).
+* W tym kursie do numerycznych realizacji używać będziemy pakietu Sage_. Jest to dostępny dla 
+  każdego program typu open-source bazujacy na języku Python_.
+
+----------------
+
+.. _Sage: http://sagemath.org/
+.. _Python: http://python.org/

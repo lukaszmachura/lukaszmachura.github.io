@@ -1,0 +1,12 @@
+Symulacje procesów losowych dyskretnych
+=======================================
+
+Relizacje komputerowe dowolnych procesów rynkowych zawsze będą dyskretne. Co prawda opisujące owe
+procesy modele będą zarówno dyskretne jak i ciągłe, ale końcowe algorytmy zawsze będą bazować
+na dyskretnych ich realizacjach. Zaczniemy od prostego, mało realistycznego modelu, w którym cena
+produktu, waloru będzie mogła rosnąć lub maleć w każdym kroku czasowym realizacji.
+
+Prosty model dynamiki ceny
+--------------------------
+
+

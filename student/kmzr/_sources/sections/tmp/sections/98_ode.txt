@@ -1,0 +1,171 @@
+Rozwiązywanie numeryczne równań różniczowych zwyczajnych
+========================================================
+
+Metoda Eulera
+-------------
+
+Jest to bodaj najprostszy sposób na numeryczne rozwiązywanie równań różniczkowych
+zwyczajnych. Technicznie to metoda pierwszego rzędu. Bazuje na prostej interpretacji 
+definicji pochodnej. Rozpatrujemy równanie postaci
+
+.. math::
+   
+   \frac{dy}{ds} = y' = f(y,s),
+
+z zadanymi warunkami początkowymi :math:`(sx(0), y(0)) = (x_0, y_0)`. Stosując przekształcenie
+
+.. math::
+
+   \frac{dy}{ds} = \lim_{\Delta s \to 0}\frac{\Delta y}{\Delta s}
+
+Na chwilę zapomnijmy o tej granicy. Mamy
+
+.. math::
+
+   \frac{\Delta y}{\Delta s} = \frac{y(s+\Delta s) - y(s)}{\Delta s}
+
+stawiając krok "czasowy" :math:`\Delta x = h` (jak to zwyczajowo w symulacjach komputerowych)
+dostajemy
+
+.. math::
+
+   \frac{y(s + h) - y(s)}{h} \simeq f(y,s),
+
+   y(s+h) \simeq y(s) + f(y,s) h.
+
+Oczywiście pełna równość zachodzi tylko w granicy :math:`h \to 0`. Na potrzeby numeryczne jednak
+nie musimy się tym przejmować. Należy mieć tylko świadomość, że zmniejszanie kroku czasowego 
+zbliża nas do wyniku dokładnego (zazwyczaj). Jako, że w iteracjach "czasowych" wykorzystujemy
+stały krok :math:`h`, więc w danej, powiedzmy `i`-tej iteracji czas rzeczywisty zastąpiony zostanie 
+poprzez :math:`s_i = i \cdot h`, możemy równie dobrze wprowadzić indeksowanie nie po czasie `s` ale 
+po zmiennej iteracyjnej `i`
+
+.. math::
+
+   y (s = ih) = y(s_i) = y_i, \quad s_i = i h,
+
+   y (i h + h) = y(h(i+1)) = y(ih) + f(y(ih), ih) h,
+
+   y_{i+1} = y_i + f(y_i,s_i) h.
+
+Dostając tzw. schemat Eulera. Innymi metodami wyprowadzenia tego prostego schematu będzie użycie 
+rozwinięcia Tylora lub wycałkowanie równania różniczowego od :math:`s_0` do :math`s_0 + h` 
+za pomocą metody prostokątów (uzywając tylko jednego prostokąta na całym przedziale całkowania).
+
+Zadanie D1.1
+  Uzyskaj schemat Eulera z rozwinięcia Tylora.
+
+Zadanie D1.2
+  Uzyskaj schemat Eulera całkując równanie różniczkowe.
+
+Dokładność metody Eulera mocno zależy od wyboru kroku całkowania `h`. Musimy też na początku zadać 
+warunki startowe (początkowe) iteracji, zupełnie jak podczas rozwiązywania równań metodami analitycznymi.
+Dla przykładu obliczmy numerycznie ruch przetłumionego sprężyny o masie 1 i współczynniku sprężystości `k`.
+
+.. math::
+
+   \dot{x}(t) = -k x(t).
+
+Rozwiązaniem jest zanik eksponencjalny :math:`x(t) = x_0 \exp (-k t)`. Wybierzemy sobie warunek początkowy
+:math:`x_0 = 1` i współczynnik sprężystości :math:`k=0.1`. Policzmy `N` iteracji i narysujmy wykres. Na 
+początku napiszemy dyskretną wersję równania ruchu
+
+.. math::
+
+   x_{i+1} = x_{i} - k x_i h = x_i (1 - kh).
+
+Teraz kod Sage
+
+.. code-block:: python
+
+   # liczba iteracji rownania
+   N = 300
+   # czas poczatkowy
+   t = 0
+   # skok czasowy
+   h = 0.01
+   # parametr rownania (sprezystosc)
+   k = 1
+   # wartosc poczatkowa x(t=0)
+   x_0 = 1
+   #inicializacja listy poprzez wartosc poczatkowa
+   lista_x = [x_0]
+   for i in xrange(N):
+     lista_x.append(lista_x[i] * (1 - k*h))
+
+wynik (rozwiąznanie numeryczne równania) trzymany jest w liście ``lista_x``. Wyrysujmy ją standardowo, razem
+z wynikiem analitycznym.
+
+.. figure:: img/98/euler001.png
+   :alt: schemat Eulera dla przetłumionej sprężyny
+   :align: center
+
+   Rozwiązanie analityczne i numeryczne równania :math:`\dot{x} = -kx`.
+
+Pomimo użycia prostej metody (pierwszego rzędu), wykresy wyglądają identycznie. No, ale czy na pewno jest tak pięknie?
+Poprawność metody możemy łatwo zbadać obliczając błędy względny (:math:`E_w`) i bezwzględny (:math:`E_b`).
+
+.. math::
+
+   E_b = \bar{y} - y,
+
+   E_w = \frac{\bar{y} - y}{\bar{y}} = \frac{E_b}{\bar{y}}.
+
+gdzie :math:`y` to wielkość obliczona algorytmem a :math:`\bar{y}` to dokładna wielkość analityczna. Dla jasności - 
+nie interesują nas w tym przypadku znaki błędów a jedynie ich wartość bezwzględna (tu proszę zwrócić
+uwage na nomenklaturę, żeby nie pomylić wartości bezwzględnej z błędem bezwzględnym). Dlatego najczęściej
+oblicza się nie :math:`E_w` a :math:`|E_w|`. Wymaga to drobnej korekty powyższego kodu
+
+.. code-block:: python
+
+   N, t, h, k, x_0 = 1000, 0, 0.01, 1, 1
+   g(s) = x_0*exp(-k*s)
+   lista_x = [x_0]
+   Eb = [g(0) - x_0]
+   Ew = [Ew[0]/g(0)]
+   for i in xrange(1,N):
+     lista_x.append(lista_x[i-1] * (1 - k*h))
+     Eb.append(abs(g(i*h) - lista_x[i]))
+     Ew.append(Eb[i]/g(i*h))    
+   list_plot(zip([i*h for i in xrange(N+1)],Eb)).show()
+   list_plot(zip([i*h for i in xrange(N+1)],Ew)).show()
+
+Spójrzmy. Na pierwszym wykresie odłożony mamy błąd bezwzględny. Widzimy, że dla krótkich czasów odbiega on od wartości
+analitycznej by dla większych czasów zmaleć do zera. Mogą być tego 2 powody: (i) różnica pomiędzy obiema wartościami
+maleje zo zera lub (ii) obie wartości maleją do zera, więc ich różnica też. Jako, że funkcja jest eksponencjalna, 
+dużo bardziej prawdopodobny jest ten drugi scenariusz. Aby zobaczyć, czy błąd rośnie z ilością iteracji
+(w czasie) wykreślimy błąd względny. Mówi on nam o stosunku błedu bezwzględnego do wartości analitycznej (rysunek
+po prawej). Tu jak widać rośnie on wraz z czasem, z czego możemy wywnioskować, że wraz z ilością iteracji
+coraz mniej dokładnie obliczamy wartość `y`.
+
+.. figure:: img/98/euler_err.png
+   :alt: Schemat Eulera dla przetłumionej sprężyny - błędy.
+   :align: center
+   
+   Błąd bezwzględny (po lewej) i błąd względny (po prawej).
+   
+Najprosztszą metodą poprawienia jakości rozwiązań jest zmniejszenie kroku całkowania. Zależności pozostaną podobne,
+zmniejszy się jednak wartośc błędów w danej chwli czasowej.
+
+.. figure:: img/98/euler_ebw_h.png
+   :alt: Schemat Eulera dla przetłumionej sprężyny - błędy.
+   :align: center
+   
+   Błąd bezwzględny (po lewej) i błąd względny (po prawej) po czasie :math:`t=10` dla różnych kroków czasowych
+   :math:`h = 1, 0.1, 0.01, 0.001, 0.0001`.
+
+====== =====================
+`h`    `Ew`
+------ ---------------------
+1      :math:`3.72 10^{-44}`
+0.1    :math:`3.70 10^{-44}`
+0.1    1
+0.01   1
+0.001  1
+0.0001 1
+====== =====================
+
+Inną, aczkolwiek trudniejszą metodą będzie użycie algorytmów wyższego rzędu takich jak schemat Rungego-Kutty
+(2-giego, 4-tego i wyższych rzędów). Dociekliwy student może zajrzeć 
+`tutaj <http://en.wikipedia.org/wiki/List_of_Runge%E2%80%93Kutta_methods>`_.
+
