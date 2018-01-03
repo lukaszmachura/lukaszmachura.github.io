@@ -21,7 +21,7 @@
 </a>, </div></div>
 
 <div style="padding-top: 10px;">31. "Multifractal characteristics of external anal sphincter based on sEMG signals",<br>P. Trybek, M. Nowakowski and L. Machura
-<br>ref: <b>in review
+<br>ref: <b>accepted
 </b>, <br><a href="javascript:unhide('pub31');">Abstract and paper</a><div id="pub31" class="hidden">This paper presents the application of Empirical Mode Decomposition based Multifractal Detrended Fluctuation Analysis for the surface electromyography signals obtained from the patients suffering from rectal cancer. The electrical activity of external anal sphincter at different level of treatment is considered. Two different range of scales are determined for the calculation of the multifractal spectra. In addition the results from standard MFDFA and the EMD--based MFDFA method are compared. Two distinct scaling regions were identified. Within the short scales region the calculated spectra exhibit the shift towards lower values of the singularity exponent for both methods. In addition obtained spectra are shifted towards the lower values of singularity exponent for the EMD--based MFDFA.<br>arXiv: <a href="http://arxiv.org/abs/1709.06291
 " target="_blank">1709.06291
 </a>, </div></div>
