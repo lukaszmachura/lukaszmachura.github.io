@@ -65,7 +65,7 @@ body {
   text-align: center;
   padding-top: 4px; 
   padding-bottom: 4px; 
-  width: 254px;
+  width: 255px;
   margin: 0px;
   background: rgb(128,0,0);
   float: left;
@@ -81,7 +81,7 @@ body {
 }
 
 .here {
-  width: 254px;
+  width: 255px;
   text-align: center;
   padding-top: 4px; 
   padding-bottom: 4px; 
