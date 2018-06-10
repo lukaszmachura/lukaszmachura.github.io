@@ -56,8 +56,11 @@ body {
   font-size: 14pt;
 }
 
-.nav {
+.nav_odpady{
   border: 1px black solid;
+}
+
+.nav {
   color: rgb(255,255,255);
   text-align: center;
   padding-top: 4px; 
@@ -73,9 +76,12 @@ body {
   color: #fff;
 }
 
+.here_odpady{
+  border: 1px black solid;
+}
+
 .here {
   width: 254px;
-  border: 1px black solid;
   text-align: center;
   padding-top: 4px; 
   padding-bottom: 4px; 
