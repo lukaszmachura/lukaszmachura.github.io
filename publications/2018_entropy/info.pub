@@ -1,7 +1,7 @@
 title:: Sample entropy of sEMG signals at different stages of rectal cancer treatment
 author::P. Trybek, M. Nowakowski, J. Salowka, J. Spiechowicz, L. Machura
 abstract::Information theory provides a spectrum of nonlinear methods capable of grasping an internal structure of a signal together with an insight into its complex nature. In this work, we discuss the usefulness of the selected entropy techniques for a description of the information carried by the surface electromyography signals during colorectal cancer treatment. The electrical activity of the  external anal sphincter can serve as a potential source of knowledge of the actual state of the patient who underwent a common surgery for rectal cancer in the form of anterior or lower anterior resection. The calculation of Sample entropy parameters has been extended to multiple time scales in terms of the Multiscale Sample Entropy. The specific values of the entropy measures and their dependence on the time scales were analyzed with regard to the time elapsed since the operation, the type of surgical treatment and also the different depths of the rectum canal. The Mann Whithney U test and Anova Friedman statistics indicate the statistically significant differences among all of stages of treatment and for all consecutive depths of rectum area for the estimated Sample Entropy. The further analysis at the multiple time scales signify the substantial differences among compared stages of treatment in the group of patients who underwent the lower anterior resection.
-ref::Entropy, accepted (2018)
-arxiv::TBA
-pdf::
+ref::Entropy 20, 863 (2018)
+arxiv::1811.02956
+pdf::entropy-20-00863.pdf
 source::
