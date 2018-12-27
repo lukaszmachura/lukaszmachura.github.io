@@ -1,7 +1,7 @@
 title::The distribution of information for sEMG signals in the rectal cancer treatment process
 author::P. Trybek, M. Nowakowski, J. Salowka and L. Machura
 abstract::The electrical activity of external anal sphincter can be registered with surface electromyography. This signals are known to be highly complex and nonlinear. This work aims in characterisation of the information carried in the signals by harvesting the concept of information entropy. We will focus of two classical measures of the complexity. Firstly the Shannon entropy is addressed. It is related to the probability spectrum of the possible states. Secondly the Spectral entropy is described, as a simple frequency-domain analog of the time-domain Shannon characteristics. We discuss the power spectra for separate time scales and present the characteristics which can represent the dynamics of electrical activity of this specific muscle group. We find that the rest and maximum contraction states represent rather different spectral characteristic of entropy, with close-to-normal contraction and negatively skewed rest state.
-ref::accepted BioSystems (2018)
-arxiv::
-pdf::
+ref::BioSystems 176, 13 (2019)
+arxiv::1809.07147
+pdf::biosystems176_13_2019.pdf
 source::
