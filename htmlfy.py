@@ -56,7 +56,7 @@ window.onload = emailCloak;
 
 <body>
 <div id="container">
-<div id="top">dr hab. Łukasz Machura</div>
+<div id="top">dr hab. prof UŚ Łukasz Machura</div>
 """%(title,"" if root == '.' else '../')
   ret += html_navi(dirs,root)
   ret += """
@@ -69,9 +69,9 @@ def html_foot():
 </div>
 <div id="footer">
 &copy; 2014, <a href="mailto:lukasz.machura@us.edu.pl">Łukasz Machura</a>,  
-Department of Theoretical Physics, Institute of Physics,
+Institute of Physics, SMCEBI,
 University of Silesia,
-ul. Uniwersytecka 4, 40-007 Katowice
+ul. 75 Pułku Piechoty 1A, 41-500 Chorzów
 </div></body></html>"""
     return ret
 

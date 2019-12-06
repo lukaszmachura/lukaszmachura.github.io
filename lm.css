@@ -106,7 +106,8 @@ body {
   height: 60px;
   color: white;
   font-size: 20pt;
-  background: rgb(128,0,0) url("images/dcpe.png") no-repeat right top;
+  background: rgb(128,0,0); 
+  /*url("images/dcpe.png") no-repeat right top;*/
 }
 
 #container {
