@@ -67,7 +67,8 @@ body {
   padding-bottom: 4px; 
   width: 256px;
   margin: 0px;
-  background: rgb(128,0,0);
+  background: rgb(0, 40, 85);
+  /*background: rgb(128,0,0);*/
   float: left;
 }
 
@@ -106,7 +107,8 @@ body {
   height: 60px;
   color: white;
   font-size: 20pt;
-  background: rgb(128,0,0); 
+  background: rgb(0, 40, 85); 
+  /*background: rgb(128,0,0); */
   /*url("images/dcpe.png") no-repeat right top;*/
 }
 
