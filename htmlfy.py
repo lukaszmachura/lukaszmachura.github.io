@@ -17,7 +17,7 @@ def html_head(title="LM Home Pages",root=""):
   ret = """
 <html>
   <head>
-    <meta http-equiv=Content-Type content="text/html; charset=utf-8"> 
+    <meta http-equiv=Content-Type content="text/html; charset=utf-8">
     <title>%s</title>
     <link href="%slm.css" rel="stylesheet" type="text/css">
     <script language="javascript" type="text/javascript">
@@ -68,7 +68,7 @@ def html_foot():
 </div>
 </div>
 <div id="footer">
-&copy; 2014, <a href="mailto:lukasz.machura@us.edu.pl">Łukasz Machura</a>,  
+&copy; 2014, <a href="mailto:lukasz.machura@us.edu.pl">Łukasz Machura</a>,
 Institute of Physics, SMCEBI,
 University of Silesia,
 ul. 75 Pułku Piechoty 1A, 41-500 Chorzów
@@ -105,11 +105,11 @@ def write_index_file(title,d):
 
 def create_publication_list(root):
   content = "<h2>List of publications</h2>"
-  _base, _dirs, _files = iter(os.walk(root)).next() 
-  ld = sorted(_dirs, reverse=True) 
+  _base, _dirs, _files = iter(os.walk(root)).next()
+  ld = sorted(_dirs, reverse=True)
   lld = len(ld)
   for _dir in ld:
-    pubdict = {'title':None, 
+    pubdict = {'title':None,
 	'author':None,
 	'abstract':None,
 	'ref':None,
@@ -119,30 +119,30 @@ def create_publication_list(root):
 	}
     f = os.path.join(root,_dir,'info.pub')
     with open(f) as inf:
-      for line in inf:
-	line = line.split('::')
-	if len(line) > 1:
-	  if len(line[1].rstrip()) > 0:
-	    pubdict[line[0]] = line[1]#.rstrip()
+        for line in inf:
+            line = line.split('::')
+            if len(line) > 1:
+                if len(line[1].rstrip()) > 0:
+                    pubdict[line[0]] = line[1]#.rstrip()
     #print _dir, pubdict
     content += """<div style="padding-top: 10px;">%i. "%s","""%(lld,pubdict['title'].rstrip())
     content += """<br>%s"""%pubdict['author']
-    if pubdict['ref'] != None: 
+    if pubdict['ref'] != None:
       content += """<br>ref: <b>%s</b>, """ % pubdict['ref'].split(',')[0]
       content += """%s""" % " ".join(pubdict['ref'].split(',')[1:])
     else:
       content += """<br>submitted"""
     content += """<br><a href="javascript:unhide('pub%d');">Abstract and paper</a>"""%lld
     content += """<div id="pub%d" class="hidden">%s<br>"""%(lld,pubdict['abstract'].rstrip())
-    if pubdict['pdf'] != None: 
+    if pubdict['pdf'] != None:
       content += """<br>pdf: <a href="%s/%s" download target="_blank">%s</a>, """%(_dir,pubdict['pdf'],pubdict['pdf'])
-    if pubdict['arxiv'] != None: 
+    if pubdict['arxiv'] != None:
       content += """arXiv: <a href="http://arxiv.org/abs/%s" target="_blank">%s</a>, """%(pubdict['arxiv'],pubdict['arxiv'])
-    if pubdict['source'] != None: 
+    if pubdict['source'] != None:
       content += """source: <a href="%s/%s">%s</a>"""%(_dir,pubdict['source'],pubdict['source'])
     content += "</div></div>\n\n"
     lld -= 1
-    
+
   f = os.path.join(root,i+'.'+sfx)
   with open(f,'w') as outf:
     outf.write(content)
@@ -150,11 +150,11 @@ def create_publication_list(root):
 
 def create_publication_list_for_ZFT(root):
   content = ""
-  _base, _dirs, _files = iter(os.walk(root)).next() 
-  ld = sorted(_dirs, reverse=True) 
+  _base, _dirs, _files = iter(os.walk(root)).next()
+  ld = sorted(_dirs, reverse=True)
   lld = len(ld)
   for _dir in ld:
-    pubdict = {'title':None, 
+    pubdict = {'title':None,
 	'author':None,
 	'abstract':None,
 	'ref':None,
@@ -162,28 +162,70 @@ def create_publication_list_for_ZFT(root):
 	'pdf':None,
 	'source':None,
 	}
+
     f = os.path.join(root,_dir,'info.pub')
     with open(f) as inf:
-      for line in inf:
-	line = line.split('::')
-	if len(line) > 1:
-	  if len(line[1].rstrip()) > 0:
-	    pubdict[line[0]] = line[1]#.rstrip()
+        for line in inf:
+            line = line.split('::')
+            if len(line) > 1:
+                if len(line[1].rstrip()) > 0:
+                    pubdict[line[0]] = line[1]#.rstrip()
+
     #print _dir, pubdict
     content += """<div style="padding-top: 10px;">%i. "%s","""%(lld,pubdict['title'].rstrip())
     content += """<br>%s"""%pubdict['author']
-    if pubdict['ref'] != None: 
+    if pubdict['ref'] != None:
       content += """<br>ref: <b>%s</b>, """ % pubdict['ref'].split(',')[0]
       content += """%s""" % " ".join(pubdict['ref'].split(',')[1:])
     else:
       content += """<br>submitted"""
-    if pubdict['arxiv'] != None: 
+    if pubdict['arxiv'] != None:
       content += """<br />\narXiv: <a href="http://arxiv.org/abs/%s" target="_blank">%s</a>, """%(pubdict['arxiv'],pubdict['arxiv'])
     content += "</div></div>\n\n"
     lld -= 1
-    
+
   f = os.path.join(root,i+'_ZFT.'+sfx)
   with open(f,'w') as outf:
+    outf.write(content)
+
+def latex_publication_list(root):
+  content = """\section{List of publications}
+  """
+  content += r"""\begin{etaremune}  %add \usepackage{etaremune}
+  """
+  _base, _dirs, _files = iter(os.walk(root)).next()
+  ld = sorted(_dirs, reverse=True)
+  lld = len(ld)
+  for _dir in ld:
+    pubdict = {'title':None,
+	'author':None,
+	'abstract':None,
+	'ref':None,
+	'arxiv':None,
+	'pdf':None,
+	'source':None,
+	}
+    f = os.path.join(root, _dir, 'info.pub')
+    with open(f) as inf:
+        for line in inf:
+            line = line.split('::')
+            if len(line) > 1:
+                if len(line[1].rstrip()) > 0:
+                    pubdict[line[0]] = line[1]#.rstrip()
+    #print _dir, pubdict
+    content += """\item %s, """ % (pubdict['title'].rstrip())
+    content += """%s""" % pubdict['author'].rstrip()
+    if pubdict['ref'] != None:
+      content += """, %s, """ % pubdict['ref'].split(',')[0]
+      content += """%s""" % " ".join(pubdict['ref'].split(',')[1:])
+    else:
+      content += """, submitted"""
+    content += "\n"
+    lld -= 1
+  content += r"""\end{etaremune}"""
+
+  f = os.path.join(root, i + '.tex')
+  with open(f, 'w') as outf:
     outf.write(content)
 
 
@@ -204,6 +246,7 @@ if __name__ == "__main__":
     root = 'publications'
     title = "LM's publications"
     create_publication_list(root)
+    latex_publication_list(root)
     write_index_file(title,root)
     print title, "written"
 
