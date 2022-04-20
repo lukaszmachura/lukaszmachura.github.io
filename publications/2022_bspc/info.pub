@@ -1,7 +1,7 @@
 title::Linking the Sampling Frequency with Multiscale Entropy to classify mitoBK patch-clamp data
 author::L. Machura, A. Wawrzkiewicz-Jałowieckaa, P. Bednarczyk, and P. Trybek
 abstract::We analyze the activity of large-conductance voltage- and $Ca^{2+}$-activated potassium channels located in the inner mitochondrial membrane (mitoBK) from human dermal fibroblast cells. The ion current activity registered via the patch-clamp technique was taken into consideration. At the preliminary stage, we performed an in-depth analysis of the signal power spectrum to find an optimal sampling frequency and study the impact of different sampling on changes in the information hidden in the signal. We found the optimal 10 kHz sampling frequency for the fibroblast's mitoBK currents sequences. Interestingly, as the signal sampling rate increases, we can observe a decrease in entropy values. The application of Multiscale Entropy analysis enabled a practical classification of single-channel current traces at various membrane potentials. Using the machine learning techniques such as K-Nearest Neighbors and Support Vector Machine, optimized by the Stochastic Gradient Descent algorithm with Sample Entropy values as inputs, allowed us to assess the more outstanding accuracy scores for the chosen classifiers at membrane the hyperpolarization than at its depolarization.
-ref::Biomed Signal Process Control (2022)
+ref::Biomed Signal Process Control 76, 103680 (2022)
 arxiv::
-pdf::
+pdf::2022_bscp_103680.pdf
 source::
