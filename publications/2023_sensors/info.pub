@@ -1,0 +1,7 @@
+title::A new method of the identification of the characteristic points in the impedance cardiography signal based on the Empirical Mode Decomposition
+author::P. Trybek, E. Sobotnicka, A. Wawrzkiewicz--Jałowiecka, L. Machura,  D. Feige, A. Sobotnicki and M. Richter-Laskowska
+abstract::Accurate detection of the fiducial points in the impedance cardiography signal (ICG) has a decisive impact on the proper estimation of the diagnostic parameters such as stroke volume or cardiac output. It is therefore necessary to find an algorithm which is able, with a great precision, to assess their positions. The solution to this problem is however quite challenging with regard to the high sensitivity of the ICG technique to the noise and varying morphology of the acquired signals. The aim of this study is to propose a novel method which allows us to overcome these limitations. The developed algorithm is based on the Empirical Mode Decomposition (EMD)--an effective technique for processing and analyzing various types of non--stationary signal. We find high correlations between results obtained from the algorithm and annotated by an expert. This, in turn, implies that the difference in estimation of the diagnostic--relevant parameters is small, which suggests that the method can automatically provide the precise clinical information.
+ref::Sensors 23, 675 (2023)
+arxiv::
+pdf::sensors-23-00675.pdf
+source::
