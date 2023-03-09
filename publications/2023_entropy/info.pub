@@ -1,0 +1,8 @@
+title::Non-Monotonic Complexity of Stochastic Model of the Channel Gating Dynamics
+author::L. Machura, A. Wawrzkiewicz-Jałowiecka, M. Richter-Laskowska and P.
+Trybek
+abstract::The simple model of an ionic current flowing through a single channel in a biological membrane is used to depict the complexity of the corresponding empirical data underlying different internal constraints and thermal fluctuations. The residence times of the channel in the open and closed states are drawn from the exponential distributions to mimic the characteristics of the real channel system. In the selected state, the dynamics are modeled by the overdamped Brownian particle moving in the quadratic potential. The simulated data allow us to directly track the effects of temperature (signal-to-noise ratio) and the channel’s energetic landscape for conformational changes on the ionic currents’ complexity, which are hardly controllable in the experimental case. To accurately describe the randomness, we employed four quantifiers, i.e., Shannon, spectral, sample, and slope entropies. We have found that the Shannon entropy predicts the anticipated reaction to the imposed modification of randomness by raising the temperature (an increase of entropy) or strengthening the localization (reduction of entropy). Other complexity quantifiers behave unpredictably, sometimes resulting in non-monotonic behaviour. Thus, their applicability in the analysis of the experimental time series of single-channel currents can be limited.
+ref::Entropy 25, 479 (2023)
+arxiv::
+pdf::entropy-25-00479.pdf
+source::
